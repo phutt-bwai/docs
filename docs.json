@@ -78,47 +78,6 @@
       "x": "https://twitter.com/zonein_xyz",
       "github": "https://github.com/zonein-workspace",
       "discord": "https://discord.gg/zonein"
-    },
-    "links": [
-      {
-        "header": "Platform",
-        "items": [
-          {
-            "label": "Web App",
-            "href": "https://staging.app.zonein.xyz/"
-          },
-          {
-            "label": "Zonein.xyz",
-            "href": "https://zonein.xyz"
-          }
-        ]
-      },
-      {
-        "header": "Resources",
-        "items": [
-          {
-            "label": "Documentation",
-            "href": "/"
-          },
-          {
-            "label": "API Reference",
-            "href": "https://api.zonein.xyz/docs"
-          }
-        ]
-      },
-      {
-        "header": "Company",
-        "items": [
-          {
-            "label": "About",
-            "href": "https://zonein.xyz/about"
-          },
-          {
-            "label": "Contact",
-            "href": "https://zonein.xyz/contact"
-          }
-        ]
-      }
-    ]
+    }
   }
 }

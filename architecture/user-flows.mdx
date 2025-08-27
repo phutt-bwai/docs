@@ -1,0 +1,197 @@
+---
+title: "User Flow Diagrams"
+description: "Comprehensive user flow diagrams illustrating how users interact with Zonein's AI-powered crypto intelligence features."
+mode: "wide"
+---
+
+# User Flow Diagrams
+
+Comprehensive user flow diagrams for the Zonein system, illustrating how users interact with our AI-powered features.
+
+## 1. Overall User Flow
+
+```mermaid
+flowchart TB
+    subgraph "User Onboarding"
+        A1[User Visit Platform] --> A2{New User?}
+        A2 -->|Yes| A3[Create Account]
+        A2 -->|No| A4[Login]
+        A3 --> A5[Connect Wallet +<br/>Link X Account]
+        A4 --> A5
+        A5 --> A6[AI Analyzes<br/>On-chain Data<br/>& Social Profile]
+        A6 --> A7[Personalized<br/>Dashboard Ready]
+    end
+
+    subgraph "Main Features"
+        A7 --> B1[Personal Dashboard]
+        B1 --> B2{Choose Feature}
+        B2 --> C1[AI Assistant<br/>Browser Extension]
+        B2 --> C2[Deep Research<br/>Reports]
+        B2 --> C3[Smart Money<br/>Analytics]
+        B2 --> C4[3D Network<br/>Graph]
+    end
+
+    subgraph "User Actions"
+        C1 --> D1[Get Instant<br/>Insights]
+        C2 --> D2[Read Research<br/>Reports]
+        C3 --> D3[Track Top<br/>Traders]
+        C4 --> D4[Explore Wallet<br/>Networks]
+        
+        D1 --> E1[Make Trading<br/>Decisions]
+        D2 --> E1
+        D3 --> E1
+        D4 --> E1
+    end
+
+    E1 --> B1
+
+    style B1 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style A6 fill:#8b5cf6,stroke:#7c3aed,stroke-width:3px,color:#fff
+```
+
+## 2. AI-Powered Dashboard User Flow
+
+```mermaid
+flowchart TB
+    A1[Open Zonein<br/>Dashboard] --> A2[View Main Tabs]
+    
+    A2 --> B1[Your Balance Tab<br/>Default View]
+    
+    B1 --> C1[See Dashboard Widgets<br/>- Portfolio Overview<br/>- Copy Trading<br/>- Market Intelligence]
+    
+    C1 --> D1{Actions}
+    D1 --> D2[Customize Widgets]
+    D1 --> D3[Interact with Data]
+    D1 --> D4[Switch Tabs]
+    
+    D2 --> E1[Add/Remove<br/>- Meme Copy<br/>- Perp Copy<br/>- AI Trending<br/>- Fear & Greed]
+    
+    D3 --> E2[Click Widget<br/>for Details]
+    
+    D4 --> E3[Explore<br/>- Social Analysis<br/>- Events<br/>- Yield Opps<br/>- News]
+    
+    E1 --> B1
+    E2 --> F1[Take Action<br/>- Follow Trader<br/>- Research Token<br/>- Read News]
+    E3 --> F2[View Tab Content]
+    
+    F1 --> B1
+    F2 --> D1
+
+    style B1 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style D1 fill:#8b5cf6,stroke:#7c3aed,stroke-width:3px,color:#fff
+```
+
+## 3. AI Assistant (Chrome Extension) User Flow
+
+```mermaid
+flowchart TB
+    A1[Browse Any<br/>Crypto Website] --> A2[See Token/Chart]
+    
+    A2 --> B1{Quick Action}
+    B1 --> B2[Right-Click<br/>Ask Crypto AI]
+    B1 --> B3[Click Extension<br/>Icon]
+    
+    B2 --> C1[AI Analyzes<br/>Page Context]
+    B3 --> C1
+    
+    C1 --> D1[Get Instant Answer<br/>- Price Analysis<br/>- Risk Assessment<br/>- Social Sentiment]
+    
+    D1 --> E1{Next Step?}
+    E1 --> E2[Ask Follow-up]
+    E1 --> E3[Copy Insight]
+    E1 --> E4[Close & Continue]
+    
+    E2 --> C1
+
+    style A1 fill:#3b82f6,stroke:#2563eb,stroke-width:3px,color:#fff
+    style D1 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+```
+
+## 4. Deep Research Engine User Flow
+
+```mermaid
+flowchart TB
+    A1[Enter Research<br/>Question] --> A2[AI Analyzes<br/>Query]
+    
+    A2 --> B1[Multi-Source<br/>Data Collection]
+    B1 --> B2[Cross-Reference<br/>& Validate]
+    B2 --> B3[Generate<br/>Report]
+    
+    B3 --> C1[View Report<br/>- Summary<br/>- Analysis<br/>- Citations<br/>- Recommendations]
+    
+    C1 --> D1{User Action}
+    D1 --> D2[Save Report]
+    D1 --> D3[Share Report]
+    D1 --> D4[Deep Dive<br/>Further]
+    
+    D4 --> A1
+
+    style A1 fill:#8b5cf6,stroke:#7c3aed,stroke-width:3px,color:#fff
+    style C1 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+```
+
+## 5. Smart Money Analytics User Flow
+
+```mermaid
+flowchart TB
+    subgraph "Discover Top Traders"
+        A1[Access Smart Money<br/>Analytics] --> A2[View Wallet<br/>Leaderboard]
+        A2 --> A3[See Key Metrics<br/>- Profit/Loss<br/>- Win Rate<br/>- ROI<br/>- Activity Score]
+    end
+
+    subgraph "Analyze Trader Performance"
+        A3 --> B1[Select Trader<br/>Profile]
+        B1 --> B2[View Details<br/>- Trading History<br/>- Token Holdings<br/>- P&L Charts<br/>- Risk Profile]
+        B2 --> B3[Analyze Patterns<br/>- Entry/Exit Timing<br/>- Token Selection<br/>- Position Sizing]
+    end
+
+    subgraph "Take Action"
+        B3 --> C1{Decision}
+        C1 --> C2[Copy Trading<br/>Strategy]
+        C1 --> C3[Set Alerts for<br/>Trader Activity]
+        C1 --> C4[Research Their<br/>Holdings]
+        C1 --> C5[Compare Multiple<br/>Traders]
+        
+        C5 --> A2
+        C4 --> D1[Deep Research<br/>on Tokens]
+    end
+
+    style A1 fill:#f59e0b,stroke:#d97706,stroke-width:3px,color:#fff
+    style B1 fill:#ef4444,stroke:#dc2626,stroke-width:3px,color:#fff
+    style B2 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+```
+
+## 6. Onchain 3D Network Graph User Flow
+
+```mermaid
+flowchart TB
+    A1[Access 3D<br/>Network View] --> A2[Load Wallet<br/>Connections]
+    
+    A2 --> B1[AI Analyzes<br/>- On-chain Data<br/>- Off-chain Data<br/>- Social Connections]
+    
+    B1 --> C1[Generate 3D<br/>Visualization]
+    
+    C1 --> D1[View Network<br/>- Your Position<br/>- Connected Wallets<br/>- Influence Paths]
+    
+    D1 --> E1{Interact with Graph}
+    E1 --> E2[Click Wallet Node<br/>View Details]
+    E1 --> E3[Trace Connections<br/>Follow Money Flow]
+    E1 --> E4[Filter by<br/>Performance]
+    E1 --> E5[Zoom In/Out<br/>Navigate 3D Space]
+    
+    E2 --> F1[See Wallet Info<br/>- Holdings<br/>- Performance<br/>- Connections]
+    E3 --> F2[Identify<br/>- Whale Wallets<br/>- Smart Money<br/>- Influencers]
+    E4 --> F3[Show Only<br/>- Profitable Wallets<br/>- Active Traders<br/>- Specific Tokens]
+    
+    F1 --> G1[Analyze Wallet]
+    F2 --> G2[Follow Strategy]
+    F3 --> C1
+    E5 --> D1
+    
+    G1 --> D1
+    G2 --> D1
+
+    style A1 fill:#7c3aed,stroke:#5b21b6,stroke-width:3px,color:#fff
+    style C1 fill:#ec4899,stroke:#be185d,stroke-width:3px,color:#fff
+    style D1 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+```

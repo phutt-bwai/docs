@@ -1,0 +1,297 @@
+---
+title: "Platform Architecture"
+description: "Technical architecture overview of Zonein's AI-powered crypto intelligence platform with real-time data processing and integrated systems."
+mode: "wide"
+---
+
+# Technical Architecture Overview
+
+## System Design Philosophy
+
+Zonein leverages cutting-edge AI infrastructure to process real-time blockchain and social data through sophisticated pipelines, enabling intelligent decision-making and personalized crypto insights at scale. Our cloud-native architecture seamlessly integrates multiple data sources to deliver actionable intelligence through an intuitive user experience.
+
+## High-Level Architecture
+
+```mermaid
+flowchart TB
+    subgraph "Data Ingestion"
+        A1[Blockchain APIs]
+        A2[Social Media APIs]
+        A3[Market Data]
+        A4[Smart Money Activity]
+    end
+
+    subgraph "Processing Layer"
+        B1[S3 Data Lake]
+        B2[ETL Pipeline]
+        B3[Stream Processing]
+    end
+
+    subgraph "AI Intelligence"
+        C1[Recommendation Engine]
+        C2[Research AI]
+        C3[Context Analysis]
+        C4[Pattern Recognition]
+    end
+
+    subgraph "Core Features"
+        D1[Personal Dashboard]
+        D2[Browser Extension]
+        D3[Deep Research]
+        D4[Smart Money Analytics]
+        D5[3D Network Graph]
+    end
+
+    subgraph "API & Services"
+        E1[FastAPI Backend]
+        E2[WebSocket Server]
+        E3[Chrome Extension API]
+    end
+
+    subgraph "User Interface"
+        F1[Web Dashboard]
+        F2[Chrome Extension]
+        F3[Telegram Bot]
+        F4[API Access]
+    end
+
+    A1 --> B1
+    A2 --> B1
+    A3 --> B1
+    A4 --> B1
+    
+    B1 --> B2
+    B2 --> B3
+    
+    B3 --> C1
+    B3 --> C2
+    B3 --> C3
+    B3 --> C4
+    
+    C1 --> D1
+    C2 --> D3
+    C3 --> D2
+    C4 --> D4
+    C4 --> D5
+    
+    D1 --> E1
+    D2 --> E3
+    D3 --> E1
+    D4 --> E1
+    D5 --> E1
+    
+    E1 --> F1
+    E2 --> F1
+    E3 --> F2
+    E1 --> F3
+    E1 --> F4
+
+    style C1 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
+    style C2 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
+    style C3 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
+    style C4 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
+    style D1 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style D2 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style D3 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style D4 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style D5 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+```
+
+## Architecture Layers
+
+### Data Ingestion Layer
+- **On-chain Data**: Real-time blockchain data from 50+ chains via APIs and indexing protocols
+- **Social Intelligence**: Twitter, Reddit, Discord sentiment analysis and trend detection
+- **Market Data**: Price feeds, volume, liquidity metrics from major exchanges
+- **Smart Money Tracking**: Whale wallet monitoring and transaction pattern analysis
+
+### AI Intelligence Layer
+- **Recommendation Engine**: Personalized opportunity discovery using collaborative filtering and deep learning
+- **Research AI**: Multi-step reasoning with self-reflection for institutional-grade analysis
+- **Context Analysis**: Understanding user intent and current browsing context
+- **Pattern Recognition**: Identifying trading patterns, wallet behaviors, and market trends
+- **Real-time Processing**: Sub-second analysis and response generation
+
+### Core Features Implementation
+- **Personal Dashboard**: 
+  - Customizable widget system with drag-and-drop interface
+  - Real-time data streaming via WebSocket connections
+  - Portfolio tracking across multiple chains
+  - AI-powered market intelligence and alerts
+
+- **Browser Extension**: 
+  - Lightweight Chrome extension with context detection
+  - Session memory for conversational interactions
+  - Integration with any crypto website
+  - Instant AI analysis overlay
+
+- **Deep Research Engine**:
+  - Multi-source data aggregation (50+ sources)
+  - Iterative research workflow with gap analysis
+  - Citation management and fact-checking
+  - Real-time report updates
+
+- **Smart Money Analytics**:
+  - Wallet profiling and categorization
+  - Trading pattern analysis and prediction
+  - Copy trading functionality
+  - Network effect analysis
+
+- **3D Network Graph**:
+  - WebGL-based visualization engine
+  - Real-time wallet connection mapping
+  - Interactive exploration with zoom/pan
+  - Money flow animation and tracking
+
+- **Telegram Bot**:
+  - Real-time AI-powered notifications
+  - Interactive chat interface for queries
+  - Personalized alerts and recommendations
+  - Mobile-first crypto intelligence
+
+### API & Services Layer
+- **FastAPI Framework**: High-performance async API architecture
+- **WebSocket Server**: Real-time data streaming for dashboards
+- **Chrome Extension API**: Secure communication between extension and backend
+- **GraphQL Gateway**: Flexible data querying for complex relationships
+
+### Security & Privacy
+- **End-to-End Encryption**: Secure data transmission
+- **Privacy-First Design**: No unnecessary data collection
+- **API Key Management**: Secure credential storage
+- **Rate Limiting**: Protection against abuse
+
+## Key Technical Innovations
+
+### AI-Powered Intelligence
+```mermaid
+flowchart LR
+    subgraph "AI Processing Pipeline"
+        AI1[Data Ingestion] --> AI2[Feature Engineering]
+        AI2 --> AI3[Model Inference]
+        AI3 --> AI4[Post-Processing]
+        AI4 --> AI5[Response Generation]
+    end
+
+    AI1 --> |"Real-time streams"| AI2
+    AI2 --> |"Normalized features"| AI3
+    AI3 --> |"Predictions"| AI4
+    AI4 --> |"Formatted insights"| AI5
+
+    style AI3 fill:#8b5cf6,stroke:#7c3aed,stroke-width:3px,color:#fff
+```
+
+### Real-Time Data Architecture
+- **Stream Processing**: Apache Kafka/Kinesis for event streaming
+- **In-Memory Caching**: Redis for low-latency data access
+- **Time-Series Database**: Optimized storage for historical data
+- **CDN Integration**: Global content delivery for static assets
+
+### Scalability Features
+- **Horizontal Scaling**: Microservices architecture with Kubernetes
+- **Load Balancing**: Intelligent request routing
+- **Auto-Scaling**: Dynamic resource allocation based on demand
+- **Multi-Region Deployment**: Global availability and redundancy
+
+## Performance Optimization
+
+### Frontend Optimization
+- **Code Splitting**: Lazy loading for faster initial load
+- **Service Workers**: Offline capability and caching
+- **WebAssembly**: High-performance computation in browser
+- **Optimistic Updates**: Instant UI feedback
+
+### Backend Optimization
+- **Async Processing**: Non-blocking I/O operations
+- **Query Optimization**: Efficient database queries with indexing
+- **Batch Processing**: Aggregated operations for efficiency
+- **Edge Computing**: Distributed processing closer to users
+
+## Future Architecture Enhancements
+
+### *Planned Capabilities*
+- *Advanced LLM Integration*: Fine-tuned models for crypto-specific understanding
+- *Smart Contract Interaction*: Direct on-chain execution capabilities
+- *Decentralized Components*: Community-powered infrastructure
+- *Multi-Agent Systems*: Autonomous agents for complex tasks
+
+### *Scaling Roadmap*
+- *Federated Learning*: Privacy-preserving model training
+- *Blockchain Integration*: Native Web3 functionality
+- *Cross-Chain Bridges*: Seamless multi-chain operations
+- *AI Model Marketplace*: Community-contributed models
+
+## Technical Stack
+
+### Frontend
+- **Framework**: Next.js with TypeScript
+- **UI Library**: React with Tailwind CSS
+- **State Management**: Redux Toolkit
+- **Data Visualization**: D3.js, Three.js for 3D graphics
+
+### Backend
+- **API Framework**: FastAPI (Python)
+- **Database**: PostgreSQL, Redis, TimescaleDB
+- **Message Queue**: Apache Kafka
+- **AI/ML**: PyTorch, Transformers, LangChain
+
+### Infrastructure
+- **Cloud Provider**: AWS with multi-region deployment
+- **Container Orchestration**: Kubernetes with Helm
+- **CI/CD**: GitHub Actions with automated testing
+- **Monitoring**: Prometheus, Grafana, ELK stack
+
+### Chrome Extension
+- **Manifest V3**: Latest Chrome extension architecture
+- **Background Service Worker**: Efficient resource usage
+- **Content Scripts**: Seamless page integration
+- **Secure Storage**: Encrypted local storage
+
+## Integration Points
+
+### External APIs
+- **Blockchain Data**: Moralis, Alchemy, QuickNode
+- **Market Data**: CoinGecko, CoinMarketCap
+- **Social Data**: Twitter API, Reddit API
+- **Research Sources**: Tavily, news aggregators
+
+### Internal Services
+- **Authentication Service**: JWT-based auth
+- **Notification Service**: Real-time alerts
+- **Analytics Service**: User behavior tracking
+- **Recommendation Service**: Personalized content
+
+## Deployment Architecture
+
+```mermaid
+flowchart TB
+    subgraph "Production Environment"
+        PE1[Load Balancer]
+        PE2[API Servers]
+        PE3[Worker Nodes]
+        PE4[Database Cluster]
+        PE5[Cache Layer]
+    end
+
+    subgraph "Development Pipeline"
+        DP1[Code Repository]
+        DP2[CI/CD Pipeline]
+        DP3[Testing Environment]
+        DP4[Staging Environment]
+    end
+
+    DP1 --> DP2
+    DP2 --> DP3
+    DP3 --> DP4
+    DP4 --> PE1
+
+    PE1 --> PE2
+    PE2 --> PE3
+    PE2 --> PE4
+    PE2 --> PE5
+
+    style PE1 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style DP2 fill:#3b82f6,stroke:#2563eb,stroke-width:3px,color:#fff
+```
+
+This architecture ensures Zonein delivers fast, reliable, and intelligent crypto insights while maintaining the flexibility to scale and evolve with user needs. 

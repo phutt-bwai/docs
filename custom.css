@@ -1,0 +1,207 @@
+/* Hide Mintlify branding in footer */
+[class*="powered-by"], 
+[class*="footer-branding"],
+[data-testid*="branding"],
+a[href*="mintlify"] {
+  display: none !important;
+}
+
+/* Hide any text containing "Powered by Mintlify" */
+:is(p, div, span, footer):has-text("Powered by Mintlify") {
+  display: none !important;
+}
+
+/* Additional selectors for footer branding */
+footer [class*="text"] a[href*="mintlify"],
+footer [class*="link"] a[href*="mintlify"] {
+  display: none !important;
+}
+
+/* OODA Loop Interactive Chart */
+.ooda-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin: 3rem 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+  border-radius: 16px;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.ooda-chart-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.ooda-donut-chart {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ooda-donut {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #ef4444 0deg 90deg,    /* Observe - Red */
+    #f59e0b 90deg 180deg,  /* Orient - Orange */
+    #3b82f6 180deg 270deg, /* Decide - Blue */
+    #10b981 270deg 360deg  /* Act - Green */
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.ooda-donut:hover {
+  transform: scale(1.05);
+}
+
+.ooda-donut-center {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--background, #1a1a1a);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+/* White chevron/diamond separators like reference image */
+.ooda-donut .ooda-sep {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.ooda-donut .sep-top { top: 12%; left: 50%; }
+.ooda-donut .sep-right { top: 50%; left: 88%; }
+.ooda-donut .sep-bottom { top: 88%; left: 50%; }
+.ooda-donut .sep-left { top: 50%; left: 12%; }
+
+/* Arc labels positioned and rotated to mimic text-on-path */
+.ooda-label { position: absolute; color: #fff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.35); }
+.label-observe { top: 18%; left: 66%; transform: rotate(35deg); }
+.label-orient  { top: 66%; left: 78%; transform: rotate(315deg); }
+.label-decide  { top: 82%; left: 32%; transform: rotate(210deg); }
+.label-act     { top: 34%; left: 14%; transform: rotate(125deg); }
+
+.ooda-descriptions {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 300px;
+}
+
+.ooda-step {
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.ooda-step:hover {
+  transform: translateX(8px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.ooda-step-observe {
+  border-left-color: #ef4444;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05));
+}
+
+.ooda-step-orient {
+  border-left-color: #f59e0b;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05));
+}
+
+.ooda-step-decide {
+  border-left-color: #3b82f6;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05));
+}
+
+.ooda-step-act {
+  border-left-color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
+}
+
+.ooda-step h4 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--foreground, #1a1a1a);
+}
+
+.ooda-step p {
+  margin: 0;
+  color: var(--muted-foreground, #666);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .ooda-donut-center {
+  background: var(--background, #0a0a0a);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+[data-theme="dark"] .ooda-step {
+  background: rgba(26, 26, 26, 0.8);
+  color: var(--foreground, #ffffff);
+}
+
+[data-theme="dark"] .ooda-step h4 {
+  color: var(--foreground, #ffffff);
+}
+
+[data-theme="dark"] .ooda-step p {
+  color: var(--muted-foreground, #a3a3a3);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .ooda-chart-wrapper {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .ooda-donut {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .ooda-donut-center {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .ooda-descriptions {
+    min-width: unset;
+    width: 100%;
+  }
+  
+  .ooda-step {
+    padding: 1.25rem;
+  }
+  
+  .ooda-step h4 {
+    font-size: 1.1rem;
+  }
+}

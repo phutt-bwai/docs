@@ -1,0 +1,287 @@
+---
+title: "Core Components"
+description: "Overview of Zonein's integrated AI systems including dashboard, browser extension, research engine, and analytics components."
+mode: "wide"
+---
+
+# Core Components Overview
+
+Zonein's architecture consists of integrated AI systems working together to deliver real-time crypto intelligence. Each component leverages state-of-the-art technology to provide insights and recommendations based on comprehensive data analysis.
+
+## AI-Powered Dashboard System
+
+Our personalized dashboard adapts to each user's needs with intelligent widgets and real-time data streams.
+
+### Dashboard Components
+
+```mermaid
+flowchart TB
+    subgraph "Widget System"
+        W1[Portfolio Widget<br/>Multi-chain tracking]
+        W2[Copy Trading Widget<br/>Smart money following]
+        W3[Market Intelligence<br/>AI-curated trends]
+        W4[Social Analysis<br/>Sentiment tracking]
+    end
+
+    subgraph "Data Processing"
+        DP1[Real-time Updates]
+        DP2[Personalization Engine]
+        DP3[Alert System]
+        DP4[Performance Analytics]
+    end
+
+    subgraph "User Interface"
+        UI1[Drag & Drop Layout]
+        UI2[Responsive Design]
+        UI3[Dark/Light Themes]
+        UI4[Mobile Support]
+    end
+
+    W1 --> DP1
+    W2 --> DP1
+    W3 --> DP2
+    W4 --> DP2
+
+    DP1 --> UI1
+    DP2 --> UI2
+    DP3 --> UI3
+    DP4 --> UI4
+
+    style W1 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
+    style W2 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
+    style W3 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
+    style W4 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
+```
+
+### Widget Features
+- **Real-Time Data Streaming**: WebSocket connections for instant updates
+- **Customizable Layout**: Drag-and-drop interface with saved preferences
+- **Cross-Chain Support**: Unified view across 50+ blockchains
+- **Intelligent Alerts**: AI-powered notifications for important events
+
+## Browser Extension Architecture
+
+Lightweight Chrome extension that brings AI intelligence to any crypto website.
+
+### Extension Components
+- **Content Script Engine**: Detects and analyzes page context
+- **Background Service Worker**: Manages API calls and caching
+- **Popup Interface**: Quick access to AI assistant
+- **Storage Layer**: Secure local storage for session data
+
+### Key Features
+- **Context Detection**: Automatically understands current page
+- **Session Memory**: Maintains conversation history
+- **Instant Analysis**: Right-click functionality for quick insights
+- **Privacy-First**: All processing happens securely
+
+## Deep Research Engine
+
+Advanced AI system that conducts institutional-grade research through multi-step reasoning.
+
+### Research Pipeline
+
+```mermaid
+flowchart LR
+    subgraph "Query Processing"
+        QP1[Query Analysis]
+        QP2[Research Planning]
+        QP3[Source Selection]
+    end
+
+    subgraph "Data Collection"
+        DC1[Web Search]
+        DC2[Blockchain Data]
+        DC3[Social Data]
+        DC4[Historical Data]
+    end
+
+    subgraph "Analysis Engine"
+        AE1[Information Synthesis]
+        AE2[Fact Checking]
+        AE3[Gap Analysis]
+        AE4[Report Generation]
+    end
+
+    QP1 --> QP2
+    QP2 --> QP3
+    QP3 --> DC1
+    QP3 --> DC2
+    QP3 --> DC3
+    QP3 --> DC4
+
+    DC1 --> AE1
+    DC2 --> AE1
+    DC3 --> AE1
+    DC4 --> AE1
+
+    AE1 --> AE2
+    AE2 --> AE3
+    AE3 --> AE4
+
+    style QP1 fill:#8b5cf6,stroke:#7c3aed,stroke-width:3px,color:#fff
+    style AE1 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style AE4 fill:#f59e0b,stroke:#d97706,stroke-width:3px,color:#fff
+```
+
+### Research Capabilities
+- **Multi-Source Aggregation**: Combines data from 50+ trusted sources
+- **Self-Reflective Analysis**: Iteratively improves research quality
+- **Real-Time Updates**: Reports stay current with market changes
+- **Citation Management**: Full transparency with source tracking
+
+## Smart Money Analytics Engine
+
+Sophisticated system for tracking and analyzing whale wallet behaviors.
+
+### Analytics Components
+- **Wallet Profiler**: Categorizes wallets by behavior and performance
+- **Pattern Recognition**: Identifies trading strategies and trends
+- **Performance Tracker**: Monitors P&L, win rate, and ROI
+- **Copy Trading Engine**: Enables following successful strategies
+
+### Advanced Features
+- **Behavioral Analysis**: Understanding wallet intent and patterns
+- **Network Mapping**: Visualizing connections between wallets
+- **Predictive Modeling**: Forecasting future wallet actions
+- **Risk Assessment**: Evaluating strategy safety
+
+## 3D Network Visualization
+
+Interactive WebGL-based system for exploring wallet relationships and money flows.
+
+### Visualization Stack
+- **Rendering Engine**: Three.js for high-performance 3D graphics
+- **Graph Processing**: Force-directed layout algorithms
+- **Interaction System**: Intuitive navigation and exploration
+- **Data Pipeline**: Real-time updates of network changes
+
+### Key Features
+- **Interactive Exploration**: Zoom, pan, and rotate in 3D space
+- **Wallet Clustering**: Visual grouping of related wallets
+- **Money Flow Animation**: See transactions in real-time
+- **Performance Filtering**: Focus on profitable wallets
+
+## Telegram Bot Integration
+
+AI-powered bot delivering personalized crypto intelligence directly to users' Telegram.
+
+### Bot Features
+- **Smart Notifications**: Real-time alerts for portfolio changes and opportunities
+- **Conversational AI**: Natural language queries about tokens, wallets, and market trends
+- **Personalized Recommendations**: AI-curated insights based on user preferences
+- **Mobile-First Design**: Optimized for on-the-go crypto intelligence
+
+### Integration Components
+- **Webhook Architecture**: Instant message processing
+- **Session Management**: Contextual conversations with memory
+- **Notification Engine**: Intelligent alert filtering and timing
+- **Security Layer**: Encrypted communications and user verification
+
+## AI & Machine Learning Infrastructure
+
+Core AI systems powering intelligent features across the platform.
+
+### Model Architecture
+- **Recommendation Models**: Collaborative filtering and deep learning
+- **NLP Pipeline**: Natural language understanding for queries
+- **Pattern Recognition**: Computer vision for chart analysis
+- **Time Series Analysis**: Price prediction and trend detection
+
+### Training Infrastructure
+- **Data Pipeline**: Continuous model improvement with new data
+- **A/B Testing**: Experimental framework for model evaluation
+- **Model Versioning**: Rollback capability for safety
+- **Performance Monitoring**: Real-time model accuracy tracking
+
+## Data Processing Pipeline
+
+High-performance infrastructure for real-time data analysis.
+
+### Pipeline Components
+
+```mermaid
+flowchart TB
+    subgraph "Ingestion"
+        I1[API Collectors]
+        I2[WebSocket Streams]
+        I3[Batch Processors]
+    end
+
+    subgraph "Processing"
+        P1[Stream Processing]
+        P2[Data Validation]
+        P3[Normalization]
+        P4[Enrichment]
+    end
+
+    subgraph "Storage"
+        S1[Hot Storage<br/>Redis]
+        S2[Warm Storage<br/>PostgreSQL]
+        S3[Cold Storage<br/>S3]
+    end
+
+    I1 --> P1
+    I2 --> P1
+    I3 --> P2
+
+    P1 --> P3
+    P2 --> P3
+    P3 --> P4
+
+    P4 --> S1
+    P4 --> S2
+    P4 --> S3
+
+    style I1 fill:#3b82f6,stroke:#2563eb,stroke-width:3px,color:#fff
+    style P1 fill:#8b5cf6,stroke:#7c3aed,stroke-width:3px,color:#fff
+    style S1 fill:#ef4444,stroke:#dc2626,stroke-width:3px,color:#fff
+```
+
+### Performance Features
+- **Sub-Second Latency**: Real-time processing for critical data
+- **Horizontal Scaling**: Distributed processing across nodes
+- **Data Validation**: Ensuring accuracy and consistency
+- **Fault Tolerance**: Automatic recovery from failures
+
+## Security & Privacy Layer
+
+Enterprise-grade protection for all user data and operations.
+
+### Security Features
+- **End-to-End Encryption**: Secure data transmission
+- **API Key Management**: Secure credential storage
+- **Rate Limiting**: Protection against abuse
+- **Privacy by Design**: Minimal data collection
+
+### Compliance
+- **Data Protection**: GDPR-compliant data handling
+- **Audit Trails**: Complete activity logging
+- **Access Control**: Role-based permissions
+- **Regular Audits**: Security vulnerability testing
+
+## Integration Framework
+
+Seamless connections with external services and APIs.
+
+### Supported Integrations
+- **Blockchain APIs**: Moralis, Alchemy, QuickNode
+- **Market Data**: CoinGecko, CoinMarketCap
+- **Social Platforms**: Twitter, Reddit, Discord
+- **Research Sources**: News aggregators, Tavily
+
+### Integration Features
+- **Unified API Gateway**: Single point of access
+- **Rate Limit Management**: Intelligent request distribution
+- **Fallback Mechanisms**: Automatic failover
+- **Response Caching**: Improved performance
+
+## Future Component Roadmap
+
+### *Planned Enhancements*
+- *Advanced LLM Integration*: Fine-tuned models for crypto
+- *Smart Contract Capabilities*: Direct on-chain interactions
+- *Decentralized Components*: Community-powered infrastructure
+- *Multi-Agent Systems*: Collaborative AI decision-making
+
+These core components work together seamlessly to deliver the Zonein experience, providing users with powerful tools for navigating the crypto market intelligently.

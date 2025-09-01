@@ -1,297 +1,52 @@
 ---
-title: "Platform Architecture"
-description: "Technical architecture overview of Zonein's AI-powered crypto intelligence platform with real-time data processing and integrated systems."
+title: "Zonein Architecture"
 mode: "wide"
 ---
 
-# Technical Architecture Overview
+# Zonein Architecture
 
-## System Design Philosophy
+Zonein turns live crypto signals into clear, context‑aware answers delivered where you work. It continuously ingests on‑chain activity, market data, and public social signals; cleans and normalizes those feeds; builds reusable metrics; and applies an AI reasoning layer that understands what you are viewing. You access the same intelligence through the **web app**, a Chrome **extension**, and a **Telegram bot**. The product is designed for speed, clarity, and accountability: short answers first, sourced details on demand, and behavior that adapts to your holdings and focus without over‑collecting data.
 
-Zonein leverages cutting-edge AI infrastructure to process real-time blockchain and social data through sophisticated pipelines, enabling intelligent decision-making and personalized crypto insights at scale. Our cloud-native architecture seamlessly integrates multiple data sources to deliver actionable intelligence through an intuitive user experience.
+## From Data to Insight 
 
-## High-Level Architecture
+The platform treats the market as a stream of events. Transactions, pool updates, price ticks, bridge moves, and social posts arrive in real time from major EVM networks, Solana, and other high‑demand chains; reputable market aggregators and exchange websockets; and public social APIs. 
 
-```mermaid
-flowchart TB
-    subgraph "Data Ingestion"
-        A1[Blockchain APIs]
-        A2[Social Media APIs]
-        A3[Market Data]
-        A4[Smart Money Activity]
-    end
+Each record is validated (duplicate removal, late/out‑of‑order quarantine), stamped with source and time, and written to two paths: hot caches (Redis) for sub‑second reads and a time‑series store for historical comparisons, with versioned parquet in an object lake for audit and backfill. 
 
-    subgraph "Processing Layer"
-        B1[S3 Data Lake]
-        B2[ETL Pipeline]
-        B3[Stream Processing]
-    end
+Lightweight stream jobs enrich events with labels (token metadata, contract type, exchange addresses) and compute rolling aggregates such as 1‑hour whale netflow, pool depth at a defined slippage, and 24‑hour sentiment deltas. These derived metrics, "features," carry freshness targets, sanity rules, and lineage so the system knows when to recompute and how to explain results.
 
-    subgraph "AI Intelligence"
-        C1[Recommendation Engine]
-        C2[Research AI]
-        C3[Context Analysis]
-        C4[Pattern Recognition]
-    end
+When you open a view or ask a question, Zonein assembles the smallest relevant slice of data by detecting your context (token page, contract, pool, governance post, or portfolio/watchlist). A reasoning layer then ranks what matters, compares metrics to recent baselines, and produces a concise answer with optional evidence (numbers, charts, links). 
 
-    subgraph "Core Features"
-        D1[Personal Dashboard]
-        D2[Browser Extension]
-        D3[Deep Research]
-        D4[Smart Money Analytics]
-        D5[3D Network Graph]
-    end
+Impermanent loss estimates, for example, are produced with a constant‑product approximation adjusted by realized volatility; pool depth considers fee tiers and concentrated liquidity; whale netflow relies on a curated smart‑money set maintained by realized PnL and hit‑rate. Answers include method notes and confidence when appropriate. 
 
-    subgraph "API & Services"
-        E1[FastAPI Backend]
-        E2[WebSocket Server]
-        E3[Chrome Extension API]
-    end
+Latency targets are practical: short Q&A typically under one second p50 and under two seconds p95, while larger research streams start with a TL;DR and fill in details progressively. Guardrails handle chain reorganizations, oracle outliers, and social spam spikes so corrupted data does not reach your screen.
 
-    subgraph "User Interface"
-        F1[Web Dashboard]
-        F2[Chrome Extension]
-        F3[Telegram Bot]
-        F4[API Access]
-    end
+## What You Use
 
-    A1 --> B1
-    A2 --> B1
-    A3 --> B1
-    A4 --> B1
-    
-    B1 --> B2
-    B2 --> B3
-    
-    B3 --> C1
-    B3 --> C2
-    B3 --> C3
-    B3 --> C4
-    
-    C1 --> D1
-    C2 --> D3
-    C3 --> D2
-    C4 --> D4
-    C4 --> D5
-    
-    D1 --> E1
-    D2 --> E3
-    D3 --> E1
-    D4 --> E1
-    D5 --> E1
-    
-    E1 --> F1
-    E2 --> F1
-    E3 --> F2
-    E1 --> F3
-    E1 --> F4
+The **web app** is a real‑time dashboard built from moveable widgets. Tiles for portfolio, smart‑money flows, yields, sentiment, events, and a 3D network graph stream updates over a single WebSocket. Portfolio views support tags, notes, and optional cost basis, and research views provide filters by timeframe, token, and role. Alert rules let you specify conditions (metric, comparator, window, cool‑down), such as “whale_netflow_1h \< −\$500k for TOKEN” with a 15‑minute cool‑down. 
 
-    style C1 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
-    style C2 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
-    style C3 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
-    style C4 fill:#6366f1,stroke:#4c1d95,stroke-width:3px,color:#fff
-    style D1 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
-    style D2 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
-    style D3 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
-    style D4 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
-    style D5 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
-```
+The **Chrome extension** brings the same intelligence to any crypto website. It infers context from the page (token symbol, contract address, pool) without harvesting full browsing history; you highlight a line, right‑click to ask, and receive an overlay answer tied to the current page. Session memory keeps follow‑ups focused without re‑entering addresses. 
 
-## Architecture Layers
+The **Telegram bot** delivers the alerts you subscribe to, answers quick checks (e.g., “whale flows 1h TOKEN”), and links back to the relevant app view. Across surfaces, the system aims to show less, not more: a small, verifiable answer first; deeper sources and historical context one click away.
 
-### Data Ingestion Layer
-- **On-chain Data**: Real-time blockchain data from 50+ chains via APIs and indexing protocols
-- **Social Intelligence**: Twitter, Reddit, Discord sentiment analysis and trend detection
-- **Market Data**: Price feeds, volume, liquidity metrics from major exchanges
-- **Smart Money Tracking**: Whale wallet monitoring and transaction pattern analysis
+Within these surfaces, several capabilities are worth special note. The sentiment view groups tokens by recent positive or negative momentum and exposes the underlying sources with credibility scores so you can distinguish organic interest from coordinated pushes. Yield opportunities are personalized to your holdings, with APY, TVL, depth, and volatility notes so high numbers are explained rather than hyped. 
 
-### AI Intelligence Layer
-- **Recommendation Engine**: Personalized opportunity discovery using collaborative filtering and deep learning
-- **Research AI**: Multi-step reasoning with self-reflection for institutional-grade analysis
-- **Context Analysis**: Understanding user intent and current browsing context
-- **Pattern Recognition**: Identifying trading patterns, wallet behaviors, and market trends
-- **Real-time Processing**: Sub-second analysis and response generation
+The events calendar focuses on items that can move positions, burns, migrations, listings, vesting, governance deadlines, and adds expected impact where history allows. Smart‑money analytics profile wallets by behavior (profitability, hold time, venues), show cluster rotations, and connect to the 3D graph so you can follow funds across entities and time. The 3D network graph renders clusters and flows with GPU instancing and level‑of‑detail culling for large views; your wallet is highlighted, exchanges and contracts are visually distinct, and filters let you isolate tokens, time windows, and roles.
 
-### Core Features Implementation
-- **Personal Dashboard**: 
-  - Customizable widget system with drag-and-drop interface
-  - Real-time data streaming via WebSocket connections
-  - Portfolio tracking across multiple chains
-  - AI-powered market intelligence and alerts
+## Trust, Performance & Controls 
 
-- **Browser Extension**: 
-  - Lightweight Chrome extension with context detection
-  - Session memory for conversational interactions
-  - Integration with any crypto website
-  - Instant AI analysis overlay
+Transport is encrypted end to end with HSTS and strict content security policies. Credentials and API keys stay in secure vaults with rotation and egress allow‑lists. Internal services operate with least privilege and rate limits. The extension reads only minimal context to perform analysis and does not collect full browsing history. 
 
-- **Deep Research Engine**:
-  - Multi-source data aggregation (50+ sources)
-  - Iterative research workflow with gap analysis
-  - Citation management and fact-checking
-  - Real-time report updates
+Private keys are never requested; Zonein performs view‑only analysis of public data. Logs are scrubbed of personal identifiers and kept only as long as required for reliability and support, with retention windows documented and visible on request. Reliability measures include horizontal scaling, multi‑region availability for read paths, and circuit breakers on upstream providers. C
 
-- **Smart Money Analytics**:
-  - Wallet profiling and categorization
-  - Trading pattern analysis and prediction
-  - Copy trading functionality
-  - Network effect analysis
+aching strategies combine Redis for hot reads, edge delivery for static assets, and explicit invalidation on chain events. Chain reorg handling (confirmation depths), oracle sanity checks, and social outlier filters protect result quality. Accessibility covers keyboard navigation for key workflows, icon‑backed color cues, and alt text on critical visuals; times display in your local zone with UTC on hover.
 
-- **3D Network Graph**:
-  - WebGL-based visualization engine
-  - Real-time wallet connection mapping
-  - Interactive exploration with zoom/pan
-  - Money flow animation and tracking
+Data governance guarantees lineage from sources → features → models → output; user exports for portfolio, alerts, and notes (CSV/JSON); memory controls to edit or clear personalization; and deletion on request, including associated cached artifacts. Known limits are communicated in‑product: coverage depth varies by chain; some social noise persists despite credibility scoring; and speed is balanced with certainty (often a TL;DR first, then deeper analysis).
 
-- **Telegram Bot**:
-  - Real-time AI-powered notifications
-  - Interactive chat interface for queries
-  - Personalized alerts and recommendations
-  - Mobile-first crypto intelligence
+## ZoneIn's Endgame
 
-### API & Services Layer
-- **FastAPI Framework**: High-performance async API architecture
-- **WebSocket Server**: Real-time data streaming for dashboards
-- **Chrome Extension API**: Secure communication between extension and backend
-- **GraphQL Gateway**: Flexible data querying for complex relationships
+ZoneIn focuses on doing more with less input from you: crypto‑specific language models with stronger numerical accuracy; optional on‑chain actions initiated from insights with simulation and explicit confirmations; privacy‑preserving learning (federated/edge) to improve personalization without moving raw data; multi‑agent research that divides tokenomics, security, and social analysis and reconciles outputs; and a curated model/strategy marketplace with sandboxing and clear risk labels. 
 
-### Security & Privacy
-- **End-to-End Encryption**: Secure data transmission
-- **Privacy-First Design**: No unnecessary data collection
-- **API Key Management**: Secure credential storage
-- **Rate Limiting**: Protection against abuse
+Typical scenarios illustrate how this works in practice: checking unlock risk from a token page via the extension (dates, size%, float, confidence, and sources); evaluating a pool in the dashboard (APY, TVL, depth, fee tier, IL range, and alerts for thresholds); or tracking smart‑money rotation (top net buyers/sellers, common destinations, cluster drill‑downs, and saved watchlists for alerts). 
 
-## Key Technical Innovations
-
-### AI-Powered Intelligence
-```mermaid
-flowchart LR
-    subgraph "AI Processing Pipeline"
-        AI1[Data Ingestion] --> AI2[Feature Engineering]
-        AI2 --> AI3[Model Inference]
-        AI3 --> AI4[Post-Processing]
-        AI4 --> AI5[Response Generation]
-    end
-
-    AI1 --> |"Real-time streams"| AI2
-    AI2 --> |"Normalized features"| AI3
-    AI3 --> |"Predictions"| AI4
-    AI4 --> |"Formatted insights"| AI5
-
-    style AI3 fill:#8b5cf6,stroke:#7c3aed,stroke-width:3px,color:#fff
-```
-
-### Real-Time Data Architecture
-- **Stream Processing**: Apache Kafka/Kinesis for event streaming
-- **In-Memory Caching**: Redis for low-latency data access
-- **Time-Series Database**: Optimized storage for historical data
-- **CDN Integration**: Global content delivery for static assets
-
-### Scalability Features
-- **Horizontal Scaling**: Microservices architecture with Kubernetes
-- **Load Balancing**: Intelligent request routing
-- **Auto-Scaling**: Dynamic resource allocation based on demand
-- **Multi-Region Deployment**: Global availability and redundancy
-
-## Performance Optimization
-
-### Frontend Optimization
-- **Code Splitting**: Lazy loading for faster initial load
-- **Service Workers**: Offline capability and caching
-- **WebAssembly**: High-performance computation in browser
-- **Optimistic Updates**: Instant UI feedback
-
-### Backend Optimization
-- **Async Processing**: Non-blocking I/O operations
-- **Query Optimization**: Efficient database queries with indexing
-- **Batch Processing**: Aggregated operations for efficiency
-- **Edge Computing**: Distributed processing closer to users
-
-## Future Architecture Enhancements
-
-### *Planned Capabilities*
-- *Advanced LLM Integration*: Fine-tuned models for crypto-specific understanding
-- *Smart Contract Interaction*: Direct on-chain execution capabilities
-- *Decentralized Components*: Community-powered infrastructure
-- *Multi-Agent Systems*: Autonomous agents for complex tasks
-
-### *Scaling Roadmap*
-- *Federated Learning*: Privacy-preserving model training
-- *Blockchain Integration*: Native Web3 functionality
-- *Cross-Chain Bridges*: Seamless multi-chain operations
-- *AI Model Marketplace*: Community-contributed models
-
-## Technical Stack
-
-### Frontend
-- **Framework**: Next.js with TypeScript
-- **UI Library**: React with Tailwind CSS
-- **State Management**: Redux Toolkit
-- **Data Visualization**: D3.js, Three.js for 3D graphics
-
-### Backend
-- **API Framework**: FastAPI (Python)
-- **Database**: PostgreSQL, Redis, TimescaleDB
-- **Message Queue**: Apache Kafka
-- **AI/ML**: PyTorch, Transformers, LangChain
-
-### Infrastructure
-- **Cloud Provider**: AWS with multi-region deployment
-- **Container Orchestration**: Kubernetes with Helm
-- **CI/CD**: GitHub Actions with automated testing
-- **Monitoring**: Prometheus, Grafana, ELK stack
-
-### Chrome Extension
-- **Manifest V3**: Latest Chrome extension architecture
-- **Background Service Worker**: Efficient resource usage
-- **Content Scripts**: Seamless page integration
-- **Secure Storage**: Encrypted local storage
-
-## Integration Points
-
-### External APIs
-- **Blockchain Data**: Moralis, Alchemy, QuickNode
-- **Market Data**: CoinGecko, CoinMarketCap
-- **Social Data**: Twitter API, Reddit API
-- **Research Sources**: Tavily, news aggregators
-
-### Internal Services
-- **Authentication Service**: JWT-based auth
-- **Notification Service**: Real-time alerts
-- **Analytics Service**: User behavior tracking
-- **Recommendation Service**: Personalized content
-
-## Deployment Architecture
-
-```mermaid
-flowchart TB
-    subgraph "Production Environment"
-        PE1[Load Balancer]
-        PE2[API Servers]
-        PE3[Worker Nodes]
-        PE4[Database Cluster]
-        PE5[Cache Layer]
-    end
-
-    subgraph "Development Pipeline"
-        DP1[Code Repository]
-        DP2[CI/CD Pipeline]
-        DP3[Testing Environment]
-        DP4[Staging Environment]
-    end
-
-    DP1 --> DP2
-    DP2 --> DP3
-    DP3 --> DP4
-    DP4 --> PE1
-
-    PE1 --> PE2
-    PE2 --> PE3
-    PE2 --> PE4
-    PE2 --> PE5
-
-    style PE1 fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
-    style DP2 fill:#3b82f6,stroke:#2563eb,stroke-width:3px,color:#fff
-```
-
-This architecture ensures Zonein delivers fast, reliable, and intelligent crypto insights while maintaining the flexibility to scale and evolve with user needs. 
+Short answers to common questions: updates for active entities arrive in seconds, and aggregated metrics refresh in short intervals; anonymous use is supported, though connecting a wallet improves personalization; the extension supports major crypto sites and reads only minimal page context; conflicting sources are cross‑checked and, when unresolved, labeled as uncertain or temporarily withheld.

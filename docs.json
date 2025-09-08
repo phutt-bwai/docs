@@ -27,8 +27,7 @@
         "icon": "cube",
         "pages": [
           "architecture/overview",
-          "architecture/core-components",
-          "architecture/user-flows"
+          "architecture/core-components"
         ]
       },
       {

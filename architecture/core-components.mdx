@@ -8,6 +8,8 @@ mode: "wide"
 
 Zonein’s core components are designed to work as one system: user surfaces (Dashboard, Browser Extension, Telegram Bot) sit on shared analysis engines (Deep Research, Smart Money Analytics, 3D Network Visualization) and a common AI/ML \+ data pipeline. Events (on‑chain, market, social) enter once through a streaming backbone, are validated and normalized, then turned into reusable features (e.g., whale netflow, pool depth, sentiment delta). Those features power every surface consistently: a question in the extension, a widget in the dashboard, and a bot alert all draw from the same truth. Identity, permissions, and context are unified so personalization, history, and alerts stay in sync across devices.
 
+![Dashboard Components.png](/images/DashboardComponents.png)
+
 # User Surfaces
 
 ## **AI‑Powered Dashboard**
@@ -24,42 +26,46 @@ The bot delivers intelligence on the go. You receive **smart notifications** (po
 
 ## Analysis Engines
 
-## **Deep Research Engine**
+### **Deep Research Engine**
 
 Built for institutional‑grade work, the engine runs a structured pipeline: query analysis → research plan → source selection → data collection (web search, blockchain, social, historical) → information synthesis → fact checking → gap analysis → report generation. It aggregates 50\+ trusted sources, uses self‑reflective passes to improve output, and keeps reports current as new data arrives. Every claim is traceable via citation management; uncertainty is labeled explicitly. Outputs range from short briefs (e.g., unlock schedules and likely impact) to multi‑section notes with charts and references.
 
-## **Smart Money Analytics Engine**
+![Research Pipeline.png](/images/ResearchPipeline.png)
+
+### **Smart Money Analytics Engine**
 
 This engine tracks and interprets wallet behavior at scale. Components include a **Wallet Profiler** (role and performance labeling), **Pattern Recognition** (strategy fingerprints and group dynamics), **Performance Tracker** (PnL, win‑rate, ROI over time), and a **Copy‑Trading Layer** (follow successful strategies with risk controls, paper mode by default). Advanced capabilities: behavioral analysis (intent, hold time, venue rotation), network mapping (clusters and influence paths), predictive modeling (near‑term actions given recent sequences), and risk assessment (drawdown, liquidity, spread, slippage). Results integrate directly into dashboard widgets, extension answers, and alerts.
 
-## **3D Network Visualization**
+### **3D Network Visualization**
 
 This WebGL system lets you _see_ the market’s wiring. A Three.js rendering engine handles large scenes with GPU instancing and occlusion culling; a graph processor arranges nodes with force‑directed layouts; an interaction layer supports zoom/pan/rotate, selection, filtering, and path tracing. Cluster views highlight exchange hubs, contract nodes, smart‑money groups, and your wallet. Money flows animate with direction and relative size, and filters let you focus by time window, token, or role. Updates stream into the scene in real time so you can follow changes as they happen.
 
 ## AI/ML & Data Pipeline
 
-## **Model Architecture**
+![Pipeline Components.png](/images/PipelineComponents.png)
+
+### **Model Architecture**
 
 Recommendations combine collaborative filtering and deep learning to rank opportunities aligned with your risk and horizon. An NLP pipeline parses natural‑language questions and page context. Pattern recognition (including chart structure detection where useful) flags notable behaviors without overfitting to noise. Time‑series analysis supports volatility regimes, trend detection, and short‑term risk estimates.
 
-## **Training Infrastructure**
+### **Training Infrastructure**
 
 Models improve continuously through a controlled data pipeline. New data feeds into scheduled and streaming training jobs; an A/B framework measures lift; versioning supports safe rollbacks; performance monitoring tracks accuracy and drift in real time.
 
-## **Data Processing Pipeline**
+### **Data Processing Pipeline**
 
 Ingestion covers API collectors and websocket streams from blockchains, markets, and social platforms. Batch and stream processors validate, normalize, and enrich events. Feature engineering produces metrics such as **whale_netflow_1h**, **pool_depth@slippage**, **sentiment_delta_24h**, and **influence_score**—each with a documented formula, freshness target, validation rules, and lineage. Storage is layered: Redis for hot reads, PostgreSQL/Timescale for warm historical queries, and S3 for cold archives and audits. Performance is maintained with sub‑second paths for critical metrics, horizontal scaling across nodes, and fault tolerance that recovers gracefully from provider failures.
 
 ## Security, Integration & Endgame
 
-## **Security & Privacy**
+### **Security & Privacy**
 
 Transport is encrypted end to end; API keys and credentials are stored in secure vaults with rotation; internal services use least‑privilege access and rate limiting. The extension does not collect full browsing history and never asks for private keys. Logs are scrubbed of personal data and kept only as long as needed. Compliance controls include GDPR‑aligned handling, audit trails, and role‑based permissions.
 
-## **Integration Framework**
+### **Integration Framework**
 
 A unified API gateway manages access to external services with rate‑limit management, fallback mechanisms, and response caching. Supported integrations include major blockchain providers (Moralis, Alchemy, QuickNode), market data (CoinGecko, CoinMarketCap), social platforms (Twitter/X, Reddit, Discord), and curated research sources (news aggregators and tools like Tavily). All integrations feed the same feature store to keep results consistent across components.
 
-## **Future **Endgame
+## Future Endgame
 
 Planned enhancements focus on accuracy, autonomy, and safety: fine‑tuned LLMs for crypto‑specific reasoning; optional smart‑contract interactions with previews and confirmations; decentralized components where community‑powered infrastructure makes sense; and multi‑agent systems that coordinate tokenomics, security, and social analysis. Each addition must pass two tests: it reduces time to a correct answer, and it can be explained clearly.

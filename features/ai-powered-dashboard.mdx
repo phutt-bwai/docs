@@ -8,7 +8,9 @@ mode: "wide"
 
 The dashboard is your command center. It turns live market, on‑chain, and social signals into clear, explainable guidance, arranged in widgets you control. Every tile draws from the same validated data and AI reasoning used across Zonein, so what you see is consistent, fast, and tied to your actual context (holdings, watchlists, and current focus). The goal is simple: fewer tabs, quicker checks, and decisions you can verify.
 
-# From Data to Insight 
+# From Data to Insight
+
+![Core Dashboard Features.png](/images/CoreDashboardFeatures.png)
 
 The dashboard subscribes to real‑time streams (prices, liquidity, transactions, social mentions) and keeps a historical baseline for comparison. As updates arrive, lightweight jobs enrich them with labels (token metadata, contract type, exchange addresses) and compute reusable metrics (e.g., 1‑hour whale netflow, pool depth at fixed slippage, 24‑hour sentiment delta). When a widget needs an answer, the system assembles only the relevant slice of data—scoped to your portfolio, watchlists, and selected timeframe—then applies a reasoning step that compares current readings to recent history.
 
@@ -20,7 +22,9 @@ Recommendations are ranked by a graph‑based engine that measures similarity ac
 
 Under the hood, events are turned into vectors (normalized features like volatility, depth, social velocity, smart‑money flow). Cosine similarity and behavioral correlation find close matches; business rules add risk rails (liquidity floors, spread checks, concentration caps) and urgency (time‑sensitive unlocks, policy changes). Results arrive as a TL;DR first, with numbers, sources, and a confidence label available on demand. Typical latencies: sub‑second for live tiles; longer research streams progressively with a summary up front.
 
-# What You Use 
+![How the Recommendation Engine Works (1).png](/images/HowtheRecommendationEngineWorks\(1\).png)
+
+# What You Use
 
 ## **Portfolio Overview**
 
@@ -34,7 +38,7 @@ A ranked view of consistently successful wallets and strategies, with transparen
 
 AI‑curated trends and regime signals: trending tokens, short‑horizon price forecasts with confidence ranges, and a news summary filtered to what can move your positions. Opportunity cards explain “why now” in one line, with sources linked.
 
-## **Social Analysis** 
+## **Social Analysis**
 
 Credibility‑weighted sentiment from Twitter/X, Reddit, and key Discords. Tokens are grouped by mood shift; opening a token shows top drivers, recent velocity, and whether chatter looks organic or coordinated.
 

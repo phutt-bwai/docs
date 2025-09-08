@@ -8,6 +8,8 @@ mode: "wide"
 
 The Deep Research Engine is Zonein’s analyst, designed to answer complex, multi‑part crypto questions with sourced, explainable reports. It plans the work, gathers live data (on‑chain, market, social, docs), checks for gaps and conflicts, and synthesizes conclusions you can verify. The same engine powers quick briefs in the dashboard, page‑anchored answers in the browser extension, and full research notes.
 
+![Advanced Research Workflow.png](/images/AdvancedResearchWorkflow.png)
+
 # How It Works
 
 ## **Input & intent**
@@ -20,6 +22,8 @@ A planner breaks the problem into sub‑tasks (e.g., fee telemetry, validator se
 
 ## **Retrieval & extraction**
 
+![Self-Reflective Research Architecture.png](/images/Self-ReflectiveResearchArchitecture.png)
+
 Orchestrated agents pull:
 
 - **On‑chain** (tx logs, holders, liquidity, governance votes).
@@ -28,9 +32,9 @@ Orchestrated agents pull:
 - **Reference** (whitepapers, docs, transparency reports).\
   Extractors normalize entities (canonical token/contract map, chain aliases), deduplicate events, and attach provenance (source URL/id, timestamp, parse method).
 
- A validation pass scores evidence (recency, source authority, cross‑source agreement, internal consistency). Conflicts are resolved by weighted consensus; unresolved items are flagged with an “Uncertain” badge and kept out of the executive summary.
+A validation pass scores evidence (recency, source authority, cross‑source agreement, internal consistency). Conflicts are resolved by weighted consensus; unresolved items are flagged with an “Uncertain” badge and kept out of the executive summary.
 
- A synthesis agent assembles findings into: TL;DR; key evidence; risks/caveats; recommended next steps; appendices. It links each claim to citations and shows data freshness. Tables and charts render from the same features used in the dashboard (e.g., whale_netflow_1h, pool_depth@slippage, sentiment_delta_24h).
+A synthesis agent assembles findings into: TL;DR; key evidence; risks/caveats; recommended next steps; appendices. It links each claim to citations and shows data freshness. Tables and charts render from the same features used in the dashboard (e.g., whale_netflow_1h, pool_depth@slippage, sentiment_delta_24h).
 
 A reflector checks for missing angles (e.g., unlocked supply, team wallets, oracle dependencies), weak evidence, or bias. If gaps are found, the plan is adjusted and missing data is fetched. The loop ends when success criteria are met and open questions are explicitly listed.
 
@@ -40,7 +44,7 @@ Reports stream in sections: a brief appears first; sections fill as evidence har
 
 Under the hood: an MCP‑compatible tool layer exposes search, chain queries, social/news APIs, and internal stores; a workflow orchestrator (e.g., LangGraph‑style) coordinates multi‑agent steps with state persistence; a feature store guarantees the same metric definitions across surfaces; and an uncertainty module attaches confidence scores to claims.
 
----
+![Complete Research Process Flow.png](/images/CompleteResearchProcessFlow.png)
 
 # What You Use
 

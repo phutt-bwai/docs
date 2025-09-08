@@ -4,11 +4,13 @@ description: "AI-powered whale wallet tracking system that monitors, analyzes, a
 mode: "wide"
 ---
 
-# Zonein Smart Money Analytics 
+# Zonein Smart Money Analytics
 
 Smart Money Analytics tracks, explains, and _predicts_ behavior from high‑impact wallets across chains. It alerts you after a big transfer and infers intent (accumulation, distribution, arbitrage, manipulation), estimates market impact, and converts signals into actions you can test (paper) or follow with risk guards. The same features and labels power the dashboard, browser extension, and 3D graph, so insights are consistent and explainable.
 
 # How It Works
+
+![How It Works.png](/images/HowItWorks.png)
 
 ## **Multi‑source collection**
 
@@ -23,13 +25,13 @@ Wallets and clusters are labeled by role and _demonstrated_ behavior—not just 
 - **Tier 3 (Project insiders):** team/vesting/treasury (where verifiable).\
   A profiler maintains realized PnL, win rate, typical hold time, venue mix, and counterparty patterns. Attribution favors _conservative_ heuristics (we avoid over‑labeling; uncertain links stay unlabeled).
 
-## **Features & models** 
+## **Features & models**
 
 Events become features: whale_netflow (by token/window), exchange inflow/outflow, venue rotation, depth‑at‑slippage, spread, volatility regime, bridge direction, and graph centrality. Two model families work together:
 
 - **Sequence models (transformers/temporal point processes):** predict next actions/horizons from event streams.
 - **Graph models (GNNs):** capture relations (who influences whom) and cluster dynamics.\
-  An ensemble with calibration outputs probabilities for intents **{accumulate, distribute, arbitrage, manipulate, neutral}**, plus a simple impact estimate (likely depth usage and short‑horizon price effect) with confidence and look‑ahead window.
+  An ensemble with calibration outputs probabilities for intents , plus a simple impact estimate (likely depth usage and short‑horizon price effect) with confidence and look‑ahead window.
 
 ## **Intent → action**
 

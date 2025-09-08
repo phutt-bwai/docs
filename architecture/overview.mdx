@@ -2,13 +2,14 @@
 title: "Zonein Architecture"
 mode: "wide"
 description: "Architecture overview of Zonein’s AI-powered crypto intelligence platform with real-time data processing and integrated systems.
-
 "
 ---
 
 # Zonein Architecture
 
 Zonein turns live crypto signals into clear, context‑aware answers delivered where you work. It continuously ingests on‑chain activity, market data, and public social signals; cleans and normalizes those feeds; builds reusable metrics; and applies an AI reasoning layer that understands what you are viewing. You access the same intelligence through the **web app**, a Chrome **extension**, and a **Telegram bot**. The product is designed for speed, clarity, and accountability: short answers first, sourced details on demand, and behavior that adapts to your holdings and focus without over‑collecting data.
+
+![image.png](/images/image.png)
 
 ## From Data to Insight
 
@@ -36,7 +37,11 @@ Within these surfaces, several capabilities are worth special note. The sentimen
 
 The events calendar focuses on items that can move positions, burns, migrations, listings, vesting, governance deadlines, and adds expected impact where history allows. Smart‑money analytics profile wallets by behavior (profitability, hold time, venues), show cluster rotations, and connect to the 3D graph so you can follow funds across entities and time. The 3D network graph renders clusters and flows with GPU instancing and level‑of‑detail culling for large views; your wallet is highlighted, exchanges and contracts are visually distinct, and filters let you isolate tokens, time windows, and roles.
 
+![AI-Powered Dashboard User Flow.png](/images/AI-PoweredDashboardUserFlow.png)
+
 ## Trust, Performance & Controls
+
+![Deployment Architecture.png](/images/DeploymentArchitecture.png)
 
 Transport is encrypted end to end with HSTS and strict content security policies. Credentials and API keys stay in secure vaults with rotation and egress allow‑lists. Internal services operate with least privilege and rate limits. The extension reads only minimal context to perform analysis and does not collect full browsing history.
 

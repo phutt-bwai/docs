@@ -19,7 +19,11 @@
         "group": "Getting Started",
         "icon": "play",
         "pages": [
-          "intro"
+          "intro",
+          "intro/the-shift",
+          "intro/winners-vs-new-game",
+          "intro/promised-land",
+          "intro/introducing-zonein"
         ]
       },
       {

@@ -1,0 +1,129 @@
+## ZoneIn Roadmap
+
+### Phase 1 — Suggestion Engine powering all surfaces 
+Objective: Deliver explainable, high‑conviction recommendations.
+
+- Signals and Features
+  - On‑chain + 3D Graph (Smart‑Trader Zones & Playbooks): Detect smart‑trader zones and extract repeatable playbooks (entries, SL/TP, leverage, routes) to power explainable recommendations.
+  - Technicals & Derivatives: EMA/RSI/MACD, ATR stops, S/R confluence; funding/OI/liquidations/basis
+  - Social & Intel: X sentiment (topic/entity), influencer breadth; unlocks/upgrades/ETF/whale flows
+  - Assistant & Alerts: in‑app assistant (chat/query on suggestions) and Telegram alerts for triggers (Flow‑Confirmed zones, key level breaks, onchain signals)
+
+Checkpoints
+- CP1.0: UI/UX completion: all dashboard surfaces fully implemented with responsive design and consistent styling.
+- CP1.1: 60%+ suggestions carry graph‑driven evidence; ≥ 40% tagged Flow‑Confirmed
+- CP1.2: Backtest 180d — Sharpe ≥ 1.2, max DD ≤ 18%, hit‑rate ≥ 48%, PF ≥ 1.3
+- CP1.3: Latency — P95 /graph/flows < 1000ms; P95 /suggestions < 2000ms
+- CP1.4: Smart‑trader coverage ≥ 5k labeled; precision audit ≥ 85%
+- CP1.5: UI CTR: Apply ≥ 12%; “View details” ≥ 25%; Telegram alert opt‑in conversion ≥ 15%, alert→click ≥ 20%
+
+Go/No‑Go: CP1.0 must pass first; if CP1.2/CP1.3 fail, re‑weight/optimize then re‑backtest before Phase 2.
+
+---
+
+### Phase 2 — Web3 On‑Chain Actions (CTA Execution) 
+Objective: Enable users to execute on‑chain actions directly from CTA buttons with safe, clear UX.
+
+- Wallets & Connectivity
+  - EVM: WalletConnect v2, MetaMask; Solana: Phantom, Solflare
+  - Session persistence, multi‑account support
+
+- CTA → Action Mapping (by surface)
+  - Spot: Buy/Sell via DEX aggregators (Jupiter on Solana) with slippage caps
+  - Perps: Open/Close/Reduce on Drift (Solana); pass Entry/TP/SL/Leverage/Size
+  - Yield: Stake/Unstake (Lido/Jito), Supply/Withdraw (Aave/Solend), LP/Farm (Raydium/Orca)
+
+- Checkpoints
+  - CP2.1: TX success rate ≥ 90% across supported flows; failed TX have actionable error messages
+  - CP2.2: P95 CTA→confirmation < 80s; data refresh (state sync) < 5s after confirmation
+  - CP2.3: Slippage/price impact guards active
+
+Go/No‑Go: Roll out progressively (feature flags) only if CP2.1–2.3 pass in staging and limited beta.
+
+---
+
+### Phase 3 — Vault + Execution 
+Objective: Map CTAs to safe execution (paper → small capital) with an explanatory X agent.
+
+- Orchestrator & Connectors
+  - Paper‑trade simulator (fees/slippage) → CEX API / Jupiter / Drift connectors
+  - Guardrails: per‑trade ≤ 1% NAV, leverage caps per asset, circuit breakers on volatility/liquidity
+  - Accounting: NAV, PnL, fees, audit log, scheduled rebalancing
+
+- X Agent
+  - Posts open/close/resize with Entry/TP/SL + 1–2 data reasons
+
+- Effectiveness & Evaluation
+  - Benchmarks: BTC, ETH, SOL, 60/40 alt basket; report both net and gross performance.
+  - Risk‑adjusted metrics: live 30d Sharpe, Sortino, Max Drawdown, Calmar.
+  - Trade stats: Hit‑rate, Profit Factor, Average win/loss, Expectancy.
+  - Tracking & execution quality: tracking error vs suggestions, slippage P50/P95, fill rate, CTA→confirm latency P95.
+  - Capacity & stability: turnover, position concentration, capacity stress tests.
+  - Attribution: by signal bucket (Flow‑Confirmed / TA / Social‑Intel), by asset and venue.
+  - Reporting cadence: daily telemetry, weekly vault report; drift alert if deviation > 2σ from backtest.
+
+- Checkpoints
+- CP2.1: Paper‑vault tracks ≥ 95% of suggestions; tracking error < 35 bps
+- CP2.2: Sandbox ≤ $5k; avg slippage < 25 bps; 7 days, 0 failed orders
+- CP2.3: X agent: 0 rate‑limit strikes in 14 days; posts include data links
+- CP2.4: Security review pass; 24/7 alerts; tested rollback
+
+- Performance KPIs (live 30d)
+- CP3.5: Sharpe ≥ 1.0; Max Drawdown within policy; Profit Factor ≥ 1.2; Hit‑rate ≥ 45%.
+- CP3.6: Tracking error < 50 bps/day; slippage P50 < 25 bps, P95 < 60 bps; execution success ≥ 98%.
+- CP3.7: Costs within budget (fees/funding/gas); 0 drift alerts over last 7 days.
+
+Go/No‑Go: Public rollout only on CP3.2–3.4 pass and meeting performance KPIs CP3.5–3.7.
+
+---
+
+### Phase 4 — Multi‑Vault & Personalization 
+Objective: Curate multiple vaults with user personalization, safe scaling, and clear economics.
+
+- Vault lineup (v1)
+  - Conservative Yield (LST + lending) — low risk; guardrail: Sharpe ≥ 1.0
+  - Momentum Spot (BTC/ETH/SOL rotation) — medium risk; DD ≤ policy
+  - Trend Perp (strict SL) — high risk; leverage caps per asset
+  - Meme Rotation (capped) — very high risk; small AUM cap
+  - Market‑Neutral (funding/basis/hedged LP) — low/medium risk
+
+- Personalization & onboarding
+  - Risk questionnaire → map to eligible vaults, per‑vault size caps
+  - Region gating, minimum capital, optional lockups; DCA plans, auto‑reinvest
+
+- Subscription & economics
+  - Fee model: management + performance with high‑water mark
+  - Subscribe/unsubscribe (partial in/out), pro‑rata accounting, cut‑off windows
+
+- Capacity & scaling
+  - Per‑vault AUM caps, cohort admissions, waitlist; position concentration rules
+  - Venue liquidity checks before rebalance; throttle under stress
+
+- Rebalancing & exposure hygiene
+  - Scheduled + drift‑based + event‑driven rebalancing; drift tolerance per vault
+  - Cross‑vault netting to avoid duplicate exposures and reduce fees
+
+- Compliance & safety
+  - Disclaimers, restricted geos, (optional) KYC/AML; feature flags per vault
+  - Canary, kill‑switch, immutable audit logs
+
+- Telemetry & reporting
+  - Vault factsheets (live/backtest), weekly reports; user statements; CSV/tax exports
+
+Checkpoints
+- CP4.1: ≥ 3 vaults live 30d, uptime > 99%, 0 failed orders, DD within policy
+- CP4.2: Retention ≥ 70%, complaint rate < 2%, two vaults fill caps < 7 days
+- CP4.3: AUM growth ≥ 15% m/m (net inflows), subscribe conversion ≥ 8%
+- CP4.4: Performance guardrails met per vault (e.g., Sharpe ≥ 1.0 or vault‑specific), 0 drift alerts in last 7d
+
+Go/No‑Go: Scale caps and add vaults only if CP4.1–CP4.4 are met.
+
+---
+
+### KPIs by Surface
+- Apply Complete Strategy CTR ≥ 12%
+- Rec Carousel Open/Buy CTR ≥ 12% | Modal open ≥ 25%
+- Perps ROE accuracy: backtest vs live error < 5%
+- Yield data freshness < 10 minutes; pool changes alerting < 2 minutes
+- Web3 CTA: TX success ≥ 97%; P95 CTA→confirmation < 80s; state sync < 5s
+

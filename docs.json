@@ -68,7 +68,7 @@
         "group": "Roadmap",
         "icon": "map",
         "pages": [
-          "roadmap"
+          "resources/roadmap"
         ]
       },
       {

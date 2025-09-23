@@ -20,8 +20,6 @@
         "icon": "play",
         "pages": [
           "intro",
-          "intro/the-shift",
-          "intro/winners-vs-new-game",
           "intro/promised-land",
           "intro/introducing-zonein"
         ]
@@ -66,15 +64,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {

@@ -17,7 +17,7 @@ A Manifest V3 content script inspects safe page signals (URL, DOM hints, selecte
 
 ## **Intent & scope**
 
-When you ask (right‑click or hotkey), the extension builds a small request: page context \+ your selection \+ the question. A background service worker adds session state (previous Q&A in this tab), signs the request (JWT), and sends it over HTTPS.
+When you ask (right‑click or hotkey), the extension builds a small request: page context + your selection + the question. A background service worker adds session state (previous Q&A in this tab), signs the request (JWT), and sends it over HTTPS.
 
 ## **Data fan‑out**
 
@@ -44,29 +44,6 @@ Answers render in a lightweight in‑page overlay. Session memory keeps context 
 **Notifications.** Enable page‑aware alerts: when you revisit a token or protocol, the extension can show a subtle badge if a saved rule triggered (e.g., unlock today, whale outflows \> threshold).
 
 **Permissions & privacy controls.** Granular toggles for site access, data sharing, and telemetry. You can deny access on specific domains, clear local storage, and review what the extension knows about the current session.
-
-# Trust, Performance & Setup
-
-## **Security & privacy**
-
-- Manifest V3 with a background service worker; strict Content Security Policy.
-- Minimal context capture; no full browsing history; no private keys ever.
-- Encrypted transport (HTTPS/HSTS). API keys stored server‑side; short‑lived JWT per request.
-- Local secure storage for session data; editable and clearable by the user.
-- Least‑privilege site permissions; per‑site opt‑out.
-
-**Performance**
-
-- Lazy loading of models and data; overlay loads only when invoked.
-- Edge/redis caching for hot metrics; offline fallback for recently viewed pages.
-- Resource budget designed for low CPU/memory impact; sub‑second p50 for common queries.
-
-**Install & first run**
-
-1. Install from Chrome Web Store and grant site access (recommended: “on click” or “on specific sites”).
-2. (Optional) Sign in to sync preferences and alerts with your Zonein account.
-3. Choose hotkey and default prompts.
-4. Visit a crypto site, highlight text, and right‑click “Ask Zonein.”
 
 # Scenarios
 

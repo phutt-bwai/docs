@@ -55,17 +55,7 @@ On a token/contract page, ask “smart‑money flows” or “who’s buying thi
 - **Pre‑accumulation** (medium/high confidence): “Tier‑2 cluster building positions; depth sufficient; watch for CEX outflows → DEX buys.”
 - **Distribution** (high confidence): “Top 10 wallets sending to CEX; consider trimming or hedging.”
 - **New token discovery:** “Two tracked clusters initiating small buys; early pattern.”
-- **Rotation:** “Smart‑money moving from Chain A DEX to Chain B pool; bridge \+ LP adds.”\
+- **Rotation:** “Smart‑money moving from Chain A DEX to Chain B pool; bridge + LP adds.”\
   Rules combine a metric, threshold, window, and cool‑down. Example: `smart_net_buy_1h > $750k & depth@50bps > $5m & vol_regime != high`.
 
 Follow lists, blacklist wallets, set per‑alert liquidity floors and max exposure, choose chains/sectors, and toggle paper vs. live following.
-
-# Trust, Limits & Performance
-
-**Evidence you can audit.** Each signal shows inputs (transactions, venues, netflow math), features considered, model verdict, and confidence. Backtests for recurring patterns are available in‑product; charts and tables link to raw txs.
-
-**Limits to respect.** CEX omnibus wallets obscure beneficiary identity; mixers/peel chains reduce traceability; some insider labels depend on public disclosures and can be incomplete; mempool visibility varies by chain and provider. Predictions are probabilistic and can be wrong—confidence and time horizon are shown explicitly.
-
-**Privacy & security.** Only public data is analyzed. No private keys ever. Transport is encrypted; credentials live in secure vaults; least‑privilege access between services. User personalization (follow lists, blacklists) is editable and exportable.
-
-**Performance & reliability.** Stream processing pushes updates in seconds; hot features live in memory; heavy computations stream partial results first. Horizontal scaling and circuit breakers protect stability during spikes (e.g., exploits).

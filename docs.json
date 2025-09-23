@@ -16,31 +16,66 @@
   "navigation": {
     "groups": [
       {
-        "group": "Getting Started",
-        "icon": "play",
+        "group": "Intro",
+        "icon": "rocket",
         "pages": [
           "intro",
-          "intro/promised-land",
-          "intro/introducing-zonein"
+          "intro/welcome-to-zonein",
+          "intro/ooda-loop"
+        ]
+      },
+      {
+        "group": "Zonein Core Capabilities & Features",
+        "icon": "brain-circuit",
+        "pages": [
+          "capabilities/getting-started",
+          {
+            "group": "For Active Users",
+            "icon": "chart-line",
+            "pages": [
+              "capabilities/for-users/ai-powered-dashboard",
+              "capabilities/for-users/ai-assistant",
+              "capabilities/for-users/deep-research",
+              "capabilities/for-users/smart-money-tracking",
+              "capabilities/for-users/3d-network-graph"
+            ]
+          },
+          {
+            "group": "For Strategic Investors",
+            "icon": "briefcase",
+            "pages": [
+              "capabilities/for-traders/strategic"
+            ]
+          }
         ]
       },
       {
         "group": "Architecture",
         "icon": "cube",
         "pages": [
-          "architecture/overview",
-          "architecture/core-components"
+          "architecture/core-components",
+          "architecture/overview"
         ]
       },
       {
-        "group": "Features",
-        "icon": "star",
+        "group": "Security, Privacy & Data Governance",
+        "icon": "shield-check",
         "pages": [
-          "features/ai-powered-dashboard",
-          "features/ai-assistant",
-          "features/deep-research",
-          "features/smart-money-tracking",
-          "features/3d-network-graph"
+          "security"
+        ]
+      },
+      {
+        "group": "Roadmap",
+        "icon": "map",
+        "pages": [
+          "roadmap"
+        ]
+      },
+      {
+        "group": "FAQ",
+        "icon": "circle-question",
+        "pages": [
+          "faq"
         ]
       }
     ]

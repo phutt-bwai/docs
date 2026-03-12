@@ -35,10 +35,10 @@
         "icon": "star",
         "pages": [
           "features/ai-powered-dashboard",
-          "features/ai-assistant",
-          "features/deep-research",
           "features/smart-money-tracking",
-          "features/3d-network-graph"
+          "features/position-graph",
+          "features/trading-agents",
+          "features/mcp-api"
         ]
       }
     ]
@@ -57,7 +57,7 @@
     "primary": {
       "type": "button",
       "label": "Launch App",
-      "href": "https://staging.app.zonein.xyz/"
+      "href": "https://app.zonein.xyz/"
     }
   },
   "contextual": {

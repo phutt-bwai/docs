@@ -1,53 +1,149 @@
 ---
-title: "Zonein Architecture"
-description: "Zonein turns live crypto signals into clear, context‑aware answers delivered where you work. It continuously ingests on‑chain activity, market data, and public social signals; cleans and normalizes those feeds; builds reusable metrics; and applies an AI reasoning layer that understands what you are viewing. You access the same intelligence through the web app, a Chrome extension, and a Telegram bot. The product is designed for speed, clarity, and accountability: short answers first, sourced details on demand, and behavior that adapts to your holdings and focus without over‑collecting data."
+title: "Architecture Overview"
+description: "How Zonein's real-time signal pipeline, data architecture, and user surfaces work together — from raw on-chain data to composite trading signals to autonomous agent execution."
 ---
-![image.png](/images/image.png)
 
-## From Data to Insight
+# Zonein Architecture
 
-The platform treats the market as a stream of events. Transactions, pool updates, price ticks, bridge moves, and social posts arrive in real time from major EVM networks, Solana, and other high‑demand chains; reputable market aggregators and exchange websockets; and public social APIs.
+Zonein is a **superior intelligence layer and intent-centric agent launchpad** for on-chain traders. It continuously ingests orderbook activity, wallet behavior, derivatives flow, and market microstructure from Hyperliquid and Polymarket — fuses these streams with multi-timeframe technical analysis, sentiment correlation, and mispricing detection — then delivers real-time composite signals through an [AI Dashboard](https://app.zonein.xyz), interactive [Position Graphs](https://app.zonein.xyz/perp/), autonomous Trading Agents, and a public API that any bot or AI assistant can plug into. The architecture is designed for one thing: compressing the OODA loop from hours to milliseconds.
 
-Each record is validated (duplicate removal, late/out‑of‑order quarantine), stamped with source and time, and written to two paths: hot caches (Redis) for sub‑second reads and a time‑series store for historical comparisons, with versioned parquet in an object lake for audit and backfill.
+## System Overview
 
-Lightweight stream jobs enrich events with labels (token metadata, contract type, exchange addresses) and compute rolling aggregates such as 1‑hour whale netflow, pool depth at a defined slippage, and 24‑hour sentiment deltas. These derived metrics, "features," carry freshness targets, sanity rules, and lineage so the system knows when to recompute and how to explain results.
+```mermaid
+graph LR
+    subgraph "External Data Sources"
+        HL[Hyperliquid L1<br/>On-chain Orderbook]
+        PM[Polymarket<br/>Prediction Markets]
+        SOC[Social & Narrative<br/>X, Telegram, News]
+    end
 
-When you open a view or ask a question, Zonein assembles the smallest relevant slice of data by detecting your context (token page, contract, pool, governance post, or portfolio/watchlist). A reasoning layer then ranks what matters, compares metrics to recent baselines, and produces a concise answer with optional evidence (numbers, charts, links).
+    subgraph "Data Ingestion Layer"
+        OC[On-chain Data Collector]
+        SC[Social Data Collector]
+    end
 
-Impermanent loss estimates, for example, are produced with a constant‑product approximation adjusted by realized volatility; pool depth considers fee tiers and concentrated liquidity; whale netflow relies on a curated smart‑money set maintained by realized PnL and hit‑rate. Answers include method notes and confidence when appropriate.
+    subgraph "AI Signal Processing Layer"
+        SMC[Smart Money Clustering<br/>Wallet Telemetry & Profiling]
+        MPD[Mispricing Detection<br/>Cross-venue Analysis]
+        SENT[Sentiment Analysis<br/>Narrative Correlation]
+        SDB[(Signal Database)]
+    end
 
-Latency targets are practical: short Q&A typically under one second p50 and under two seconds p95, while larger research streams start with a TL;DR and fill in details progressively. Guardrails handle chain reorganizations, oracle outliers, and social spam spikes so corrupted data does not reach your screen.
+    subgraph "User Interfaces"
+        DASH[AI Dashboard<br/>app.zonein.xyz]
+        PG[Position Graphs<br/>Perp · Spot · PM · HIP-3]
+    end
+
+    subgraph "Agent Layer"
+        AGENT[Zonein Agent<br/>Intent → Policy → Execution]
+        TG[Telegram Bot<br/>Notifications & HITL]
+        CLI[OpenClaw / Claude<br/>MCP Protocol]
+    end
+
+    subgraph "Web3 Trust & Payments"
+        ERC[ERC-8004 Identity<br/>Verifiable Agent Reputation]
+        X402[x402 Data Provider<br/>Premium Signal Micropayments]
+    end
+
+    HL --> OC
+    PM --> OC
+    SOC --> SC
+    OC --> SMC
+    OC --> MPD
+    SC --> SENT
+    SMC --> SDB
+    MPD --> SDB
+    SENT --> SDB
+    SDB --> DASH
+    SDB --> PG
+    SDB --> AGENT
+    AGENT --> TG
+    AGENT --> CLI
+    AGENT --> ERC
+    AGENT --> X402
+```
+
+## From Data to Signal
+
+The platform treats the market as a continuous stream of events across **four asset types**: [perpetual futures](https://app.zonein.xyz/perp/), [spot token holdings](https://app.zonein.xyz/spot), [HIP‑3 builder‑deployed perps](https://app.zonein.xyz/hip3), and [prediction markets](https://app.zonein.xyz/pm). Data arrives in real time from Hyperliquid's on-chain orderbook (positions, trades, funding, HIP‑3 DEXes) and Polymarket's API (leaderboards, positions, trades). Technical analysis indicators span multiple timeframes. Derivatives data provides open interest, funding rates, long/short ratios, and liquidation flows.
+
+```mermaid
+flowchart TB
+    subgraph "Real-Time Signal Pipeline"
+        DISCOVER[Asset Discovery<br/>Filter by smart money conviction] --> FETCH
+        FETCH[Parallel Ingestion<br/>SM Telemetry + TA + Derivatives + Sentiment] --> CALC
+        CALC[Signal Fusion Engine<br/>Adaptive weighting across data sources] --> STORE
+        STORE[Signal Database<br/>Latest snapshots + Historical time-series]
+    end
+
+    subgraph "Signal Sources"
+        SM[Smart Money Telemetry<br/>Wallet consensus · Behavioral clustering<br/>Conviction strength]
+        TAScore[Technical Analysis<br/>Multi-timeframe indicators<br/>RSI · MACD · SuperTrend · ADX · BB]
+        MKT[Derivatives Flow<br/>Funding · OI · Long/Short ratio<br/>Liquidation · Taker flow]
+        SENT[Sentiment & Mispricing<br/>Narrative correlation<br/>Cross-venue arbitrage detection]
+        SM --> COMPOSITE[Composite Signal<br/>Directional conviction + Confidence score]
+        TAScore --> COMPOSITE
+        MKT --> COMPOSITE
+        SENT --> COMPOSITE
+    end
+```
+
+Tokens must meet minimum smart money conviction thresholds before signals are computed — the system automatically filters for assets where enough high-credibility wallets have taken positions to produce a statistically meaningful consensus.
+
+The signal fusion engine combines **smart money telemetry** (wallet-count ratio, value ratio, behavioral confidence), **multi-timeframe technical analysis** (RSI, MACD, SuperTrend, ADX, Bollinger Bands, and more across multiple timeframes), and **derivatives flow** (funding rate extremes, OI surges, liquidation clustering, taker flow imbalance) into a single directional conviction score. The weighting between sources is **adaptive** — configurable per agent and per strategy — and confidence increases when multiple independent sources converge on the same direction.
 
 ## What You Use
 
-The **web app** is a real‑time dashboard built from moveable widgets. Tiles for portfolio, smart‑money flows, yields, sentiment, events, and a 3D network graph stream updates over a single WebSocket. Portfolio views support tags, notes, and optional cost basis, and research views provide filters by timeframe, token, and role. Alert rules let you specify conditions (metric, comparator, window, cool‑down), such as “whale_netflow_1h \< −\$500k for TOKEN” with a 15‑minute cool‑down.
+### [AI Dashboard](https://app.zonein.xyz)
 
-The **Chrome extension** brings the same intelligence to any crypto website. It infers context from the page (token symbol, contract address, pool) without harvesting full browsing history; you highlight a line, right‑click to ask, and receive an overlay answer tied to the current page. Session memory keeps follow‑ups focused without re‑entering addresses.
+Real-time command center. Assets ranked by composite conviction — click any asset for a full analysis page with OHLC charts, SM strength overlay, trade flow bubbles, funding rate, derivatives indicators, and liquidation heatmaps. See [AI Dashboard](/capabilities/for-users/ai-powered-dashboard) for the full detail page breakdown.
 
-The **Telegram bot** delivers the alerts you subscribe to, answers quick checks (e.g., “whale flows 1h TOKEN”), and links back to the relevant app view. Across surfaces, the system aims to show less, not more: a small, verifiable answer first; deeper sources and historical context one click away.
+### [Position Graphs](https://app.zonein.xyz/perp/)
 
-Within these surfaces, several capabilities are worth special note. The sentiment view groups tokens by recent positive or negative momentum and exposes the underlying sources with credibility scores so you can distinguish organic interest from coordinated pushes. Yield opportunities are personalized to your holdings, with APY, TVL, depth, and volatility notes so high numbers are explained rather than hyped.
+Four interactive bipartite graphs ([PM](https://app.zonein.xyz/pm), [Perp](https://app.zonein.xyz/perp/), [Spot](https://app.zonein.xyz/spot), [HIP-3](https://app.zonein.xyz/hip3)) render the live relationship between smart money wallets and their positions. Pre-computed server-side, rendered with D3.js. See [Position Graph](/capabilities/for-users/3d-network-graph).
 
-The events calendar focuses on items that can move positions, burns, migrations, listings, vesting, governance deadlines, and adds expected impact where history allows. Smart‑money analytics profile wallets by behavior (profitability, hold time, venues), show cluster rotations, and connect to the 3D graph so you can follow funds across entities and time. The 3D network graph renders clusters and flows with GPU instancing and level‑of‑detail culling for large views; your wallet is highlighted, exchanges and contracts are visually distinct, and filters let you isolate tokens, time windows, and roles.
+### [MCP API](https://mcp.zonein.xyz/docs) & Telegram
 
-![AI-Powered Dashboard User Flow.png](/images/AI-PoweredDashboardUserFlow.png)
+REST API + MCP stdio server for programmatic access. Telegram bot for trade notifications and HITL approval. See [MCP API & Integrations](/capabilities/for-users/ai-assistant).
 
-## Trust, Performance & Controls
+### Trading Agents
 
-![Deployment Architecture.png](/images/DeploymentArchitecture.png)
+Autonomous agents that consume composite signals, apply custom strategy and trigger conditions, and execute on Hyperliquid via non-custodial vaults. Auto or HITL mode. See [Trading Agents](/capabilities/for-users/deep-research).
 
-Transport is encrypted end to end with HSTS and strict content security policies. Credentials and API keys stay in secure vaults with rotation and egress allow‑lists. Internal services operate with least privilege and rate limits. The extension reads only minimal context to perform analysis and does not collect full browsing history.
+## Data Flow
 
-Private keys are never requested; Zonein performs view‑only analysis of public data. Logs are scrubbed of personal identifiers and kept only as long as required for reliability and support, with retention windows documented and visible on request. Reliability measures include horizontal scaling, multi‑region availability for read paths, and circuit breakers on upstream providers. C
+```mermaid
+flowchart LR
+    subgraph "Continuous Ingestion"
+        C1[Perp Positions & Trades]
+        C2[Spot Holdings]
+        C3[HIP-3 DEX Positions]
+        C4[PM Leaderboard & Trades]
+    end
 
-aching strategies combine Redis for hot reads, edge delivery for static assets, and explicit invalidation on chain events. Chain reorg handling (confirmation depths), oracle sanity checks, and social outlier filters protect result quality. Accessibility covers keyboard navigation for key workflows, icon‑backed color cues, and alt text on critical visuals; times display in your local zone with UTC on hover.
+    subgraph "Processing"
+        C1 --> SIG[Signal Fusion Engine]
+        C2 --> SIG
+        C3 --> SIG
+        C4 --> SIG
+        SIG --> SNAP[Live Snapshots<br/>Latest signal per asset]
+        SIG --> HIST[Historical Time-Series<br/>Retained for trend analysis & backtesting]
+    end
 
-Data governance guarantees lineage from sources → features → models → output; user exports for portfolio, alerts, and notes (CSV/JSON); memory controls to edit or clear personalization; and deletion on request, including associated cached artifacts. Known limits are communicated in‑product: coverage depth varies by chain; some social noise persists despite credibility scoring; and speed is balanced with certainty (often a TL;DR first, then deeper analysis).
+    subgraph "Delivery"
+        SNAP --> API[MCP API<br/>Sub-second responses]
+        HIST --> API
+        API --> DASH[Dashboard]
+        API --> GRAPH[Position Graphs]
+        API --> AGENT[Trading Agents]
+        API --> EXT[External Clients]
+    end
+```
+
+Data is ingested continuously from on-chain sources, processed into composite signals, and served through the MCP API. Live snapshots power real-time views; historical time-series enable trend analysis and backtesting. Responses are cached in-memory for sub-second latency.
 
 ## ZoneIn's Endgame
 
-ZoneIn focuses on doing more with less input from you: crypto‑specific language models with stronger numerical accuracy; optional on‑chain actions initiated from insights with simulation and explicit confirmations; privacy‑preserving learning (federated/edge) to improve personalization without moving raw data; multi‑agent research that divides tokenomics, security, and social analysis and reconciles outputs; and a curated model/strategy marketplace with sandboxing and clear risk labels.
+ZoneIn is building toward a future where signal, intent, and execution collapse into a single frictionless loop — verifiable agent reputation (ERC-8004), pay-per-request micropayments (x402), RL-based policies that learn from market feedback, expanded venue coverage, and a strategy marketplace with on-chain performance verification. For the full roadmap, see [Core Components — Future Endgame](/architecture/core-components#future-endgame) and [MCP API — Web3 Trust & Payments](/capabilities/for-users/ai-assistant#web3-trust--payments-roadmap).
 
-Typical scenarios illustrate how this works in practice: checking unlock risk from a token page via the extension (dates, size%, float, confidence, and sources); evaluating a pool in the dashboard (APY, TVL, depth, fee tier, IL range, and alerts for thresholds); or tracking smart‑money rotation (top net buyers/sellers, common destinations, cluster drill‑downs, and saved watchlists for alerts).
-
-Short answers to common questions: updates for active entities arrive in seconds, and aggregated metrics refresh in short intervals; anonymous use is supported, though connecting a wallet improves personalization; the extension supports major crypto sites and reads only minimal page context; conflicting sources are cross‑checked and, when unresolved, labeled as uncertain or temporarily withheld.
+Typical scenarios illustrate how this works in practice: browsing the [AI Dashboard](https://app.zonein.xyz) to find assets where smart money, TA, and derivatives flow all converge; opening a [Position Graph](https://app.zonein.xyz/perp/) to see which high-conviction wallets share positions in a token you're researching; deploying a HITL trading agent that proposes trades with full evidence for you to approve from Telegram; or querying your AI assistant with "What are whales doing on BTC?" and getting a composite answer in seconds.

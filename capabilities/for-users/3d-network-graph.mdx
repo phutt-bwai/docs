@@ -1,71 +1,80 @@
 ---
-title: "3D Network Graph"
-description: "Interactive 3D visualization revealing wallet relationships, money flows, and market influence patterns in crypto networks."
+title: "Position Graph"
+description: "X-ray vision into smart money — interactive graphs revealing the live relationship between high-conviction wallets and their positions across all tracked venues."
 ---
 
-# Zonein 3D Network Graph
+# Zonein Position Graph
 
-The 3D Network Graph turns raw on‑chain activity into a live, explorable map of relationships and money flows. You can see who is connected to whom, how funds move, and which wallets influence markets, without reading thousands of transactions. The scene updates in near real time and uses the same validated data and scoring you see in the dashboard, so views are consistent, explainable, and shareable.
+You're researching a token. You check a wallet tracker — one address at a time, no context on whether the trader is any good. You check another. And another. After 30 minutes, you still don't know: _how many_ smart wallets are in this trade? _Which direction_ are they leaning? _Who else_ agrees with them?
 
-<img
-  src="/images/HowtheRecommendationEngineWorks.png"
-  alt="How the Recommendation Engine Works.png"
-  title="How the Recommendation Engine Works.png"
-  style={{ width:"100%" }}
-/>
+The Position Graph answers all of that **in a single glance**. It renders the entire flow topology — every tracked smart money wallet connected to every position they hold — as an interactive graph you can zoom, filter, and drill into. Wallets on one side, assets on the other, connected by links that encode direction, size, leverage, and PnL.
 
-# From Data to 3D
+When you see a cluster of high-win-rate wallets converging on the same token with aligned leverage — that's not noise. That's institutional-grade consensus delivered visually.
 
-## **Sources & enrichment**
+# The Problem With Wallet Trackers
 
-The graph draws from on‑chain transactions and logs across major chains, augmented with labels (exchanges, contracts, smart‑money sets), ENS or verified names where available, and optional social verifications. Each wallet becomes a **node** with attributes (balance bands, activity rate, profitability, influence score). Each interaction becomes an **edge** typed as: direct transfer, DEX swap, bridge, or social/ownership link.
+Traditional wallet trackers are one-dimensional: one wallet → one list of positions. You have no way to see:
 
-## **Metrics & analytics**
+- How many high-conviction wallets are in the _same_ trade
+- Whether they're on the same _side_ (all LONG? mixed? hedging?)
+- Which wallets tend to move _together_ (coordinated conviction)
+- How a specific token's SM exposure compares to _everything else_
 
-Stream jobs compute:
+```mermaid
+flowchart LR
+    subgraph "What Wallet Trackers Show"
+        W1[Wallet A → BTC LONG, ETH SHORT]
+        W2[Wallet B → BTC LONG, SOL LONG]
+        W3[No connection between them]
+    end
 
-- **Flow metrics:** net in/out by token and window; edge weight = value × frequency; direction via arrows.
-- **Clusters:** community detection groups related wallets; you can expand/collapse clusters.
-- **Centrality & influence:** who sits on many important paths and who tends to move price/volume shortly after transactions.
-- **Risk signals:** concentration, synchronized moves, suspicious patterns (rapid daisy‑chains, peel chains).
+    subgraph "What Position Graphs Reveal"
+        GRAPH[Full topology:<br/>Wallet A and B both LONG BTC<br/>BTC has 12 SM wallets aligned LONG<br/>Cluster detected — coordinated conviction]
+    end
+```
 
-## **Layout & updates**
+The Position Graph collapses this complexity into a single visual. Four graph types cover every asset class ZoneIn tracks: [perpetual futures](https://app.zonein.xyz/perp/), [spot holdings](https://app.zonein.xyz/spot), [prediction markets](https://app.zonein.xyz/pm), and [HIP-3 DEX positions](https://app.zonein.xyz/hip3).
 
-Nodes arrange with a force‑directed layout tuned for stability as new edges arrive. Updates stream in incrementally; the scene rebalances without jolts. A time slider lets you view **historical states** (“time travel”) or isolate windows (e.g., last 1h). Path‑finding tools compute **Shortest Path**, **Money Trail** (multi‑hop fund traces), and **Influence Path** (likely propagation).
+# Four Graphs, Four Edges
 
-# What You Use
+## [**Perpetual Futures**](https://app.zonein.xyz/perp/) — Directional Conviction With Leverage
 
-## **Core controls**
+The richest graph. Every SM wallet connected to every perp position — direction (LONG green / SHORT red), position size, leverage, entry price, unrealized PnL. Token nodes show aggregated long/short value and live funding rate.
 
-- **Navigate:** orbit, pan, and zoom; double‑click to focus; press **F** to frame a selection.
-- **Search & select:** paste an address/ENS; click a node for its panel (address, labels, P&L bands, win rate, major holdings, recent activity, influence score).
-- **Filter:** time window, token, chain, wallet type (exchange, contract, smart money, whale), profitability band, activity level.
-- **Trace:** choose **Money Trail** to follow funds across hops; **Shortest Path** to connect two wallets; **Path bookmarks** save traces.
-- **Compare:** pin up to 3 clusters or wallets and compare flows, counterparties, and overlap.
-- **Export & share:** screenshot/video; CSV of visible edges/nodes; shareable link with filters encoded.
+**The edge:** See at a glance which coins have the strongest SM consensus. A token with 15 wallets all LONG at moderate leverage, while another has 3 wallets split — that's a massive conviction gap most traders never see. Filter by side, minimum size, or wallet limit to focus on what matters.
 
-## **Visual language**
+## [**Spot Holdings**](https://app.zonein.xyz/spot) — Accumulation Before the Move
 
-- **Nodes:**
-  - Your wallet = gold with gentle pulse.
-  - Exchanges = blue with icon; contracts = purple; smart‑money = green; whales scale larger by holdings.
-  - Color heat from **profitability** (green → red); **brightness** = recency of activity.
-- **Edges:**
-  - Solid = direct transfers; dashed = DEX swaps; dotted = social/ownership link; gradient = influence path.
-  - **Thickness** = interaction frequency/size; **opacity** = relationship strength; **arrows** = flow direction.
+SM wallets connected to their token holdings — USD value, PnL, accumulation patterns. Token nodes show total holding value, holder count, and a critical metric: **profit/loss holder ratio** (how many wallets are in profit vs underwater).
 
-Tooltips and the side panel explain any metric with timestamp and method notes.
+**The edge:** A token with many SM holders mostly in profit means they got in early — the smart money accumulated before the narrative broke. A token where most SM holders are underwater might be a trap. This context is invisible from price charts alone.
 
-# Use Cases & Analysis Patterns
+## [**Prediction Markets**](https://app.zonein.xyz/pm) — Where the Sharpest Minds Converge
 
-**Whale watching.** Filter by whales and a token; follow thick outbound lines to see accumulation, distribution, or OTC‑like moves. Add an alert from the panel if net outflow exceeds your threshold.
+Top-ranked Polymarket traders connected to their market positions — conviction size, YES/NO direction, consensus clusters. Similarity overlay groups traders who bet on the same outcomes in the same direction.
 
-**Smart‑money tracking.** Highlight smart‑money nodes; look for tight clusters rotating into a new chain or sector. Use **Money Trail** to identify common destinations and copy‑pressure risk.
+**The edge:** When a cluster of top-ranked traders with high win rates all concentrate on YES for a market — and the current price says 40% — that's a probabilistic gap between crowd odds and expert conviction. The graph makes this visible instantly.
 
-**Risk assessment.** For a project treasury or team wallet, inspect counterparties and cluster concentration. Rapid peel chains or synchronized moves across fresh wallets are red flags.
+## [**HIP-3 DEX**](https://app.zonein.xyz/hip3) — The Frontier Nobody Watches
 
-**Market research.** Map holder distribution for a token. Are hubs exchange‑centric or many small clusters? Use **Influence Path** to see how attention and liquidity might propagate.
+SM positions on Hyperliquid's builder-deployed perpetual DEXes. Each token node uses `COIN (DEX)` format (e.g., `HYPE (HyperSwap)`) so you can compare the same coin across different venues.
 
-**Ops & investigations.** Paste two addresses and run **Shortest Path** to find links; export the subgraph as CSV for reports.
+**The edge:** HIP-3 DEXes attract sophisticated traders exploiting pricing inefficiencies between venues. Seeing which DEX pairs draw SM capital — and how they position vs the main Hyperliquid perps — gives you edge on assets most traders don't even know exist.
 
-**Interpretation tips.** Reduce clutter with filters before judging structure; follow the thickest, most recent edges first; compare two windows (e.g., last 24h vs last 7d) to separate noise from regime change.
+# How To Use This
+
+**Find consensus.** Open the perp graph. Look for tokens where many high-score wallets cluster on the same side. A token with many wallets all LONG and zero SHORT is a strong consensus signal — cross-reference with the [AI Dashboard](https://app.zonein.xyz) composite score for confirmation.
+
+**Detect accumulation early.** The spot graph shows which tokens SM wallets are quietly accumulating. Look for tokens with many holders, high total value, and most holders in profit — that's early-stage conviction before the crowd catches on.
+
+**Cross-market conviction.** Compare the same coin across perp and spot graphs. SM is LONG on perp _and_ accumulating on spot? That's double conviction. SHORT on perp but accumulating spot? Could be hedging — a more nuanced signal.
+
+**Discover hidden venues.** The HIP-3 graph surfaces opportunities on builder-deployed DEXes that most traders don't monitor. See where the sharpest capital flows before it appears on mainstream dashboards.
+
+**Read cluster consensus.** The PM graph's similarity overlay groups traders who agree. If a high-score cluster is concentrated on YES for a market, that's coordinated conviction from people with verifiable track records — not speculation.
+
+# Why This Is Different
+
+Wallet trackers give you addresses. Position Graphs give you **topology** — the full structure of who's positioned where, how much, in what direction, and who else agrees. Every node shows credibility scores, behavioral categories, and performance metrics. Every link shows position details. Every cluster reveals coordinated conviction that no single-wallet tool can surface.
+
+**Getting started.** Open any graph — [Perp](https://app.zonein.xyz/perp/), [Spot](https://app.zonein.xyz/spot), [PM](https://app.zonein.xyz/pm), [HIP-3](https://app.zonein.xyz/hip3) — and explore. Zoom in on clusters. Hover over wallets. Click tokens to see who's in. The intelligence is visual, immediate, and actionable.

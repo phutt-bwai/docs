@@ -29,24 +29,11 @@
         "icon": "brain-circuit",
         "pages": [
           "capabilities/getting-started",
-          {
-            "group": "For Active Users",
-            "icon": "chart-line",
-            "pages": [
-              "capabilities/for-users/ai-powered-dashboard",
-              "capabilities/for-users/ai-assistant",
-              "capabilities/for-users/deep-research",
-              "capabilities/for-users/smart-money-tracking",
-              "capabilities/for-users/3d-network-graph"
-            ]
-          },
-          {
-            "group": "For Strategic Investors",
-            "icon": "briefcase",
-            "pages": [
-              "capabilities/for-traders/strategic"
-            ]
-          }
+          "capabilities/for-users/ai-powered-dashboard",
+          "capabilities/for-users/smart-money-tracking",
+          "capabilities/for-users/3d-network-graph",
+          "capabilities/for-users/deep-research",
+          "capabilities/for-users/ai-assistant"
         ]
       },
       {
@@ -94,7 +81,7 @@
     "primary": {
       "type": "button",
       "label": "Launch App",
-      "href": "https://staging.app.zonein.xyz/"
+      "href": "https://app.zonein.xyz"
     }
   },
   "contextual": {

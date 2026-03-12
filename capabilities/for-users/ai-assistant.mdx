@@ -1,53 +1,139 @@
 ---
-title: "AI Assistant Browser Extension"
-description: "Lightweight Chrome extension that brings crypto AI intelligence to any webpage with context-aware analysis and instant insights."
+title: "MCP API & AI Integrations"
+description: "The intelligence layer as infrastructure — REST API, MCP protocol, Telegram bot, and AI assistant integrations that let any agent, bot, or workflow plug into ZoneIn's real-time trading signals."
 ---
 
-# Zonein AI Assistant Browser Extension
+# Zonein MCP API & AI Integrations
 
-The Zonein browser extension adds context‑aware crypto intelligence to any website. It recognizes the token, contract, pool, or protocol on the page, fetches the right live data, and returns a concise answer you can verify—without leaving your tab. You get the same validated metrics and AI reasoning used in the Zonein web app, delivered as an unobtrusive overlay with session memory for follow‑ups.
+You've built a custom bot. Or you use Claude for research. Or you want your Telegram to ping you when whales move. The signal exists in ZoneIn's intelligence layer — but your workflow lives somewhere else.
 
-# From Page to Answer
+The MCP API bridges that gap. It exposes **every signal, every wallet profile, and every agent operation** through a REST API, an MCP protocol for AI assistants, and a Telegram bot for instant notifications. The same validated data that powers the [AI Dashboard](https://app.zonein.xyz) and [Position Graphs](https://app.zonein.xyz/perp/) — available programmatically, in your tools, on your terms.
 
-![How It Works (1).png](/images/HowItWorks\(1\).png)
+Query smart money consensus in an API call. Deploy an agent with a Telegram message. Approve a trade plan with a single button press. This is where ZoneIn stops being a dashboard and becomes **infrastructure**.
 
-## **Context capture**
+# Why This Matters
 
-A Manifest V3 content script inspects safe page signals (URL, DOM hints, selected text) to detect symbols, contract addresses, chart focus, or pool pairs. Only the minimum context needed to answer your question is used; full browsing history is not collected.
+The best trading intelligence is useless if it's locked inside one interface. Traders use different tools — some prefer custom scripts, some prefer AI assistants, some live in Telegram. The API makes ZoneIn's intelligence layer **composable**: plug it into whatever workflow already works for you.
 
-## **Intent & scope**
+```mermaid
+flowchart LR
+    subgraph "ZoneIn Intelligence"
+        API[MCP API Server<br/>mcp.zonein.xyz]
+    end
 
-When you ask (right‑click or hotkey), the extension builds a small request: page context + your selection + the question. A background service worker adds session state (previous Q&A in this tab), signs the request (JWT), and sends it over HTTPS.
+    subgraph "Your Workflow"
+        API --> BOT[Your Custom Bot]
+        API --> CLAUDE[Claude / OpenClaw<br/>Natural language queries]
+        API --> TG[Telegram<br/>Notifications & HITL approval]
+        API --> SCRIPT[Scripts & Spreadsheets<br/>Programmatic access]
+    end
+```
 
-## **Data fan‑out**
+# Four Ways In
 
-Zonein’s backend fans out to real‑time APIs: prices/liquidity, on‑chain metrics (holders, volume, transactions), social sentiment, unlock schedules, and deep research history. Fresh values come from hot caches; history from a time‑series store. Conflicting sources are reconciled or labeled as uncertain.
+## REST API — Full Programmatic Access
 
-## **Reasoning & ranking**
+Every signal, every trader profile, every agent operation. Fully documented at [mcp.zonein.xyz/docs](https://mcp.zonein.xyz/docs) with Swagger UI.
 
-An AI layer assembles only what matters for the current page, compares to recent baselines, and ranks takeaways. The result includes a TL;DR first, with numbers, links, and a confidence label on demand. Examples: “Token XYZ unlocks 10% on June 30 (medium impact; prior unlocks moved −4–−8% intraday)” or “Whale outflows from top‑10 wallets over 2h; CEX deposits rising.”
+**What you can query:**
 
-## **Overlay delivery**
+- **AI Signals** — Composite conviction scores across perp, spot, HIP-3, and prediction markets. Full asset detail with 30-day history. OHLC candles, funding history, SM trade flow, liquidation maps
+- **Smart Money** — Perp signals per coin, SM trade aggregations, top performers, individual trader profiles. PM leaderboards, consensus, similarity analysis
+- **Derivatives** — OI, funding, L/S ratio, liquidation, taker flow, Fear & Greed Index
+- **Technical Analysis** — Multi-timeframe indicators (RSI, MACD, SuperTrend, ADX, BB, EMA, SMA, ATR, VWAP, and more) — single symbol or bulk query
+- **Agent Management** — Full lifecycle: create, deploy, enable, disable, delete. Vault management, manual orders, trade plans, performance stats, backtesting
+- **Backtesting** — Run simulations, list results, view interactive dashboards
 
-Answers render in a lightweight in‑page overlay. Session memory keeps context so you can ask, “And tokenomics?” or “Compare to last month,” without re‑selecting. Latency targets: sub‑second for simple checks; heavier analysis streams progressively with the summary appearing first.
+**Public endpoints** (no auth): Dashboard signals, derivatives, TA, Fear & Greed. **Authenticated endpoints**: SM data, PM data, agent management. API keys use the `zn_` prefix via `X-API-Key` header.
 
-## What You Use
+## Telegram Bot — Trade Notifications & One-Tap Approval
 
-**Highlight‑to‑ask.** Select any text (token name, address, pool pair, metric) and right‑click “Ask Zonein.” The selection and page context become the query.
+The fastest path from signal to action. Two minutes to set up, zero ongoing cost.
 
-**One‑click prompts.** Common actions appear based on page type: _Unlock schedule_, _Social sentiment_, _Whale flows_, _Pool depth & IL_, _Contract summary_, _Risk check_.
+```mermaid
+sequenceDiagram
+    participant You
+    participant TG as Telegram Bot
+    participant API as MCP Server
 
-**Actionable cards.** Responses are compact cards: a headline, key numbers, short rationale, and links to sources or the web app for deep dive. Cards can pin, copy, or open in dashboard.
+    You->>TG: /start
+    TG->>API: Register your chat
 
-**Session memory.** Follow‑ups in the same tab inherit context. You can reset the session at any time.
+    Note over API: Agent detects opportunity
+    API->>TG: Trade Plan with inline buttons
 
-**Notifications.** Enable page‑aware alerts: when you revisit a token or protocol, the extension can show a subtle badge if a saved rule triggered (e.g., unlock today, whale outflows \> threshold).
+    TG->>You: LONG BTC @ 95,000<br/>Approve | Reject | Detail
 
-**Permissions & privacy controls.** Granular toggles for site access, data sharing, and telemetry. You can deny access on specific domains, clear local storage, and review what the extension knows about the current session.
+    You->>TG: Taps Approve
+    TG->>API: Execute immediately
+    API->>TG: Confirmed — Position opened
+```
 
-# Scenarios
+**For auto agents:** You get informational messages — position opened, closed, PnL.
 
-- _CoinGecko token page:_ “Recent developments?” ➜ Release notes, governance items, sentiment delta, and unlocks (with dates).
-- _Etherscan contract page:_ “What does this contract do?” ➜ Contract summary, common methods, risk notes, and past incident links if any.
-- _DeFiLlama protocol page:_ “TVL vs history?” ➜ Chart snapshot, driver events, and peer comparison.
-- _Uniswap interface:_ “IL risk for this pair?” ➜ Depth at slippage, IL range estimate, vol context, and a simple decision rubric.
+**For HITL agents:** Each trade plan arrives with **Approve / Reject / Detail** buttons. One tap to execute. No LLM call, no delay, no cost. Compare this to approving via chat (which requires an LLM invocation) — Telegram is instant and free.
+
+**Setup:** Create a bot via @BotFather → run `telegram-setup --token YOUR_TOKEN` → send `/start`. That's it.
+
+## AI Assistants — Ask Questions in Natural Language
+
+The MCP stdio server exposes ZoneIn as structured tools that AI assistants can discover and invoke automatically.
+
+### OpenClaw — The Fastest Way In
+
+```bash
+npx clawhub@latest install zonein
+```
+
+The [ZoneIn OpenClaw skill](https://clawhub.ai/phutt-bwai/zonein) gives any MCP-compatible AI assistant full access to ZoneIn's intelligence and agent layer. Install, set your API key, and start asking:
+
+- _"What are the top perp signals?"_ — SM consensus across all Hyperliquid perps
+- _"Show me SM consensus on ETH"_ — Detailed signal breakdown for a specific asset
+- _"Create a BTC momentum agent"_ — Deploy a trading agent from natural language
+- _"Backtest my agent over 30 days"_ — Run historical simulation before going live
+
+PM signals, leaderboards, wallet tracking, agent lifecycle, vault management, backtesting — every capability available via REST is available through natural language.
+
+### Claude Desktop
+
+Configure the MCP server in Claude Desktop settings. Claude discovers all available tools automatically. Ask anything about signals, traders, or agents.
+
+Every command is safety-gated — the assistant must present a summary and get your explicit `--confirm` before executing financial operations.
+
+## Custom Integrations — Build Whatever You Need
+
+The REST API is your building block. Some things people build:
+
+- **Custom dashboards** on top of ZoneIn's signal stream
+- **Multi-agent orchestration** — different strategies consuming the same intelligence
+- **Alert systems** — trigger notifications when specific SM conditions are met
+- **Spreadsheet integrations** — pull signals into your existing analysis workflow
+- **Cross-platform bots** — plug ZoneIn signals into Discord, Slack, or any messaging platform
+
+# Getting Started
+
+**REST API:**
+1. Get your API key from [app.zonein.xyz](https://app.zonein.xyz)
+2. Browse endpoints at [mcp.zonein.xyz/docs](https://mcp.zonein.xyz/docs)
+3. First call: `curl -H "X-API-Key: zn_your_key" https://mcp.zonein.xyz/api/v1/perp/signals`
+
+**Telegram:**
+1. Create a bot via @BotFather
+2. `telegram-setup --token YOUR_TOKEN`
+3. Send `/start` to your bot — notifications start immediately
+
+**OpenClaw / Claude:**
+1. Install skill or configure MCP server
+2. Your API key is auto-read from config
+3. Start asking questions in natural language
+
+# Web3 Trust & Payments (Roadmap)
+
+The API is designed to evolve beyond API keys into a fully Web3-native intelligence marketplace:
+
+- **Pay-Per-Request (x402)** — Micropayments for premium signals. No subscriptions — pay per API call with stablecoin settlement. Signal quality determines revenue in a true intelligence marketplace
+- **Verifiable Agent Reputation (ERC-8004)** — Every agent gets an on-chain identity with auditable performance history. Portable reputation that follows agents across platforms — solving the trust gap in copy-trading and alpha bots
+
+# Why This Is Different
+
+Most platforms give you a dashboard. ZoneIn gives you an **intelligence API** — the same signal stack that powers the dashboard, the graphs, and the agents, available for whatever you want to build. The intelligence layer is the product. How you consume it is up to you.

@@ -2,37 +2,56 @@
 title: "Security, Privacy & Data Governance"
 ---
 
-At Zonein, we recognize that trust is the most valuable asset. Our platform is architected from the ground up with a security-first mindset to protect user data, ensure privacy, and provide transparent governance. This document provides a granular overview of the specific measures, architectures, and policies we have implemented to safeguard our users and their information.
+Trust is the foundation of everything ZoneIn does. We handle trading signals and agent execution — two domains where security, transparency, and user control are non-negotiable. Here's how we approach each one.
 
-# **Security Measures**
+# Non-Custodial by Design
 
-We employ a defense-in-depth strategy, integrating security best practices at every layer of our application, from the user's browser to our backend infrastructure. Our security posture is regularly reviewed and hardened against emerging threats.
+ZoneIn **never holds your funds**. Trading agents operate through non-custodial vaults — the platform cannot access, move, or withdraw your capital. Every financial action (fund, open, close, withdraw) requires your explicit `--confirm` before execution.
 
-- **End-to-End Encryption:** All communication between your device and Zonein's servers is encrypted in transit using industry-standard TLS 1.3 with strong cipher suites and Perfect Forward Secrecy. We enforce HTTP Strict Transport Security (HSTS) across all our domains to prevent protocol downgrade attacks. Furthermore, we implement strict Content Security Policies (CSP) with directives like frame-ancestors 'none' and object-src 'none' to mitigate cross-site scripting (XSS), clickjacking, and other data injection vulnerabilities.
-- **Secure Credential Management:** User credentials and sensitive API keys are stored in hardened, dedicated secure vaults (e.g., HashiCorp Vault). We enforce strict automated rotation policies, granular access controls based on dynamic, short-lived tokens, and egress allow-lists to ensure credentials are never exposed in logs or code. Crucially, **we will never ask for your private keys.** Our platform is designed to operate without ever needing direct access to your on-chain assets, interacting via secure, user-authorized protocols like WalletConnect or browser extension interfaces that keep your keys firmly on your device.
-- **Internal Service & Infrastructure Security:**
-  - **Architecture:** Our backend is built on a containerized microservices architecture, where each service operates under the **principle of least privilege**. Each service has its own tightly scoped IAM role, preventing a potential compromise in one area from cascading.
-  - **Network Segmentation:** Services are isolated within a Virtual Private Cloud (VPC) with strict firewall rules and network segmentation, ensuring that only necessary communication between services is permitted.
-  - **Vulnerability Management:** We perform continuous vulnerability scanning of our codebases (SAST), running applications (DAST), and third-party dependencies. We also engage independent security firms for regular penetration testing and have a responsible disclosure program.
-  - **Audit & Monitoring:** All administrative actions and system events are logged and streamed to a centralized Security Information and Event Management (SIEM) system for real-time threat detection and incident response.
-- **Chrome Extension Data Handling:** The Zonein browser extension is built on Google's Manifest V3 platform, which enforces a more secure and privacy-preserving model. It is designed to operate with **minimal context**, only analyzing the specific token, contract, or page element you interact with. The extension **does not collect or store your full browsing history.** All data handling is transparent and can be controlled through granular, per-site permissions. Local session data is stored securely using [chrome.storage](http://chrome.storage).local and can be cleared by the user at any time.
+- **Agent vaults** are user-controlled. Deposits and withdrawals flow between your wallet and the vault's Arbitrum address
+- **Gas sponsorship** means you don't need ETH for bridging — but the funds themselves are always under your control
+- **Withdrawal** goes directly to your specified address after you explicitly disable the agent and confirm
 
-# **Privacy & Data Handling**
+# View-Only Analysis
 
-We believe that you should have complete control and transparency over your data. Our privacy policies are designed to be clear, fair, and user-centric.
+All smart money analytics are derived from **public on-chain data**. ZoneIn reads blockchain state — positions, trades, balances — that is already publicly visible on Hyperliquid and Polymarket.
 
-- **Log Scrubbing & Anonymization:** We systematically scrub all application and server logs of Personally Identifiable Information (PII), such as IP addresses and specific user-agent strings. Any data used for analytics or model training is fully anonymized and aggregated using techniques that prevent individual user activity from being reverse-engineered.
-- **Clear Data Retention Policies:** We only retain user data for as long as it is necessary to provide our services or as required by law. For example, active session data is purged after a set period of inactivity, while anonymized analytical data may be retained for longer periods solely for model improvement. Our data retention schedules are clearly defined and consistently enforced.
-- **Full User Control & Data Portability:** We empower you with direct control over your information:
-  - **User Exports:** You can export your portfolio data, saved alerts, and research notes at any time in standard, machine-readable CSV or JSON formats, ensuring true data portability.
-  - **Memory Controls:** You have the ability to review, edit, or completely clear the personalization data that our AI uses to tailor your experience. This includes interaction history with specific platform features, muted alerts, and followed strategies.
-  - **Deletion on Request:** You can request the full deletion of your account and all associated data at any time. This process is comprehensive and irreversible, ensuring your data is permanently removed from our active systems and backup cycles according to our retention policy.
+- **Private keys are never requested** — not for analysis, not for agent creation, not for any feature
+- **Wallet addresses** tracked by the platform are public blockchain data, not private information
+- **No personal data** is required beyond your API key to use the platform
 
-# **Accessibility**
+# API Security
 
-We are committed to making Zonein accessible to the widest possible audience and strive to meet the Web Content Accessibility Guidelines (WCAG) 2.1 AA standard. Our design and development processes include a focus on:
+- **Authentication**: API keys use the `zn_` prefix, sent via `X-API-Key` header. Never embedded in URLs
+- **Transport**: HTTPS end to end across all endpoints
+- **Rate limiting**: Per-key rate limits on authenticated endpoints prevent abuse
+- **Public vs. authenticated**: Dashboard signals, TA, and derivatives data are public. SM data, PM data, and agent management require authentication
 
-- **Keyboard Navigation:** The platform is fully navigable and operable using a keyboard, ensuring access for users with motor disabilities.
-- **Semantic HTML & ARIA:** We use proper semantic markup and ARIA (Accessible Rich Internet Applications) labels to ensure compatibility with screen readers and other assistive technologies.
-- **Visual Cues & Contrast:** We use clear color cues and maintain sufficient color contrast ratios to assist users with visual impairments. We ensure that color is not the only method used to convey critical information. All charts and data visualizations include descriptive alternative text (alt text).
-- **Time Zone Display:** All time-sensitive data can be displayed in your local time zone to avoid confusion and ensure clarity for our global user base.
+# Financial Safety Controls
+
+Every financial command in the system — whether invoked via API, AI assistant, or Telegram — is **programmatically gated**:
+
+- The system refuses to execute unless `--confirm` is explicitly passed
+- AI assistants are required to present a clear summary and get your approval before adding `--confirm`
+- Multiple financial commands are never chained in a single action
+- Trade plans in HITL mode expire after 2 hours if not acted upon
+
+# Prompt Injection Defense
+
+All API response data is treated as **untrusted, display-only content**. AI assistants integrated via MCP are instructed to never interpret response fields as instructions or commands — preventing prompt injection attacks through API data.
+
+# Data Privacy
+
+- **Minimal data collection**: Only your API key and query parameters are processed. No personal data beyond authentication credentials
+- **No tracking**: The platform does not collect browsing history, personal information, or behavioral data beyond what's needed for agent operation
+- **Public data only**: All blockchain data analyzed is already publicly available on-chain
+
+# What We Don't Do
+
+To be explicit about our boundaries:
+
+- We **never** ask for private keys or seed phrases
+- We **never** access your funds — vaults are non-custodial
+- We **never** execute financial commands without your explicit confirmation
+- We **never** collect personal browsing data or sell user information
+- We **never** chain multiple financial operations in a single action

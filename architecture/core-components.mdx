@@ -1,70 +1,197 @@
 ---
 title: "Core Components"
-description: "Overview of Zonein's integrated AI systems including dashboard, browser extension, research engine, and analytics components."
+description: "How Zonein's intelligence layer, agent framework, and trust primitives work together to deliver real-time trading signals and autonomous execution."
 ---
 
 # How They Work Together
 
-Zonein’s core components are designed to work as one system: user surfaces (Dashboard, Browser Extension, Telegram Bot) sit on shared analysis engines (Deep Research, Smart Money Analytics, 3D Network Visualization) and a common AI/ML \+ data pipeline. Events (on‑chain, market, social) enter once through a streaming backbone, are validated and normalized, then turned into reusable features (e.g., whale netflow, pool depth, sentiment delta). Those features power every surface consistently: a question in the extension, a widget in the dashboard, and a bot alert all draw from the same truth. Identity, permissions, and context are unified so personalization, history, and alerts stay in sync across devices.
+Zonein's core components form a vertically integrated stack: from raw on-chain data ingestion to composite signal processing to autonomous agent execution. User surfaces ([AI Dashboard](https://app.zonein.xyz), [Position Graphs](https://app.zonein.xyz/perp/), Telegram Bot) sit on a shared intelligence layer (Signal Fusion Engine, Smart Money Telemetry, Similarity & Mispricing Detection) and a common real-time data pipeline. On-chain orderbook data from Hyperliquid and Polymarket enters once through collectors, is validated and stored, then fused with technical analysis and derivatives flow into composite trading signals. Those signals power every surface consistently: a chart in the [dashboard](https://app.zonein.xyz), a graph node in the [Position Graph](https://app.zonein.xyz/perp/), a trade plan from an agent, and an API response to an external AI assistant all draw from the same truth.
 
-![Dashboard Components.png](/images/DashboardComponents.png)
+```mermaid
+graph TB
+    subgraph "Data Ingestion"
+        CF[PM Collector<br/>Leaderboards & Trades]
+        SCF[Spot Collector<br/>Token Holdings]
+        HF[HIP-3 Collector<br/>DEX Positions]
+        PC[Perp Collector<br/>Positions & Trades]
+    end
 
-# User Surfaces
+    subgraph "Intelligence Layer"
+        SC[Signal Fusion Engine<br/>Adaptive multi-source composition]
+        SME[Smart Money Telemetry<br/>Behavioral profiling & clustering]
+        SE[Similarity & Mispricing<br/>Cross-venue detection]
+        TSA[Trader Style Analyzer<br/>Performance attribution]
+    end
 
-## **AI‑Powered Dashboard**
+    subgraph "API & Agent Layer"
+        MCP[MCP API Server<br/>REST + MCP stdio]
+        AF[Agent Framework<br/>Intent → Policy → Execution]
+        TG[Telegram Bot<br/>Notifications & HITL]
+    end
 
-The dashboard is a real‑time control center. It uses a drag‑and‑drop widget system with saved layouts (desktop and mobile), dark/light themes, and responsive design. Widgets include: **Portfolio** (multi‑chain holdings and tags), **Copy Trading** (follow smart‑money strategies in paper or live modes), **Market Intelligence** (AI‑curated trends and regime shifts), **Social Analysis** (credibility‑weighted sentiment), **Yields** (APY/TVL/depth with risks), **Events** (burns, migrations, unlocks, governance), and the **3D Graph** (relationships and flows). Data streams over a single WebSocket connection for stability; tiles update without reloads. A personalization engine suppresses noise and highlights items relevant to your watchlists and behavior. Alerts are rule‑based (metric, comparator, window, cool‑down) and come with source links. Performance analytics explain why an item surfaced (inputs, baseline, confidence).
+    subgraph "User Surfaces"
+        DASH[AI Dashboard<br/>app.zonein.xyz]
+        PG[Position Graphs<br/>Perp · Spot · PM · HIP-3]
+        OC[OpenClaw / Claude<br/>MCP Protocol]
+    end
 
-## **Browser Extension**
+    subgraph "Web3 Primitives"
+        ERC[ERC-8004 Identity<br/>Verifiable Reputation]
+        X402[x402 Micropayments<br/>Premium Data Access]
+    end
 
-The extension brings Zonein to any crypto website with near‑zero friction. A content script detects context from the page (token symbols, contract addresses, pool pairs, chart selections). A background service worker handles API calls, caching, and session memory so follow‑ups stay in context. The popup provides quick actions; right‑click “highlight‑to‑ask” turns any selection into a context‑aware query. Key guarantees: minimal data extraction (no full browsing history), secure local storage for session data, and privacy‑first design with as much processing done locally as practical. Core features: automatic context detection, session memory for conversations, and instant analysis that returns a TL;DR first with details on demand.
+    CF --> SME
+    SCF --> SME
+    HF --> SME
+    PC --> SME
+    SME --> SC
+    SE --> SC
+    SC --> MCP
+    MCP --> DASH
+    MCP --> PG
+    MCP --> AF
+    MCP --> OC
+    AF --> TG
+    AF --> ERC
+    AF --> X402
+```
 
-## **Telegram Bot**
+# MCP API Server
 
-The bot delivers intelligence on the go. You receive **smart notifications** (portfolio changes, whale flows, unlocks, liquidity shifts) with links to the supporting data. Conversational queries cover tokens, wallets, pools, and trends; answers are concise and use the same features as the app. Session management keeps context across messages; quiet‑hours and rate limits prevent alert fatigue. Behind the scenes: a webhook architecture for instant ingest, an intelligent notification engine for filtering and timing, and a security layer for encrypted communications and user verification.
+The backbone of the platform. A FastAPI application running at `mcp.zonein.xyz` that serves as the unified gateway for all data access and agent management. It exposes seven route groups:
 
-## Analysis Engines
+```mermaid
+graph LR
+    subgraph "MCP API Routes"
+        D[/dashboard/*<br/>AI Signals · OHLC · SM Overlay<br/>Funding · Liquidation Map]
+        P[/pm/*<br/>Leaderboard · Signals<br/>Traders · Similarity]
+        PR[/perp/*<br/>Smart Traders · Signals<br/>Coins · Liquidation Map]
+        DV[/derivatives/*<br/>OI · Funding · L/S Ratio<br/>Liquidation · Fear & Greed]
+        T[/ta/*<br/>Multi-Timeframe Indicators<br/>Single & Bulk Queries]
+        AG[/agents/*<br/>CRUD · Lifecycle · Vault<br/>Orders · Trade Plans]
+        BT[/backtest/*<br/>Run · List · Dashboard]
+    end
+```
 
-### **Deep Research Engine**
+- **Agent routes**: Full CRUD lifecycle for trading agents, vault management (deposit/fund/withdraw), manual order placement, trade plan management (HITL), and performance statistics.
+- **Backtest routes**: Run historical simulations against cached signals and real OHLC prices, list past backtests, and serve interactive dashboard pages with equity curves, trade markers, and daily PnL charts.
 
-Built for institutional‑grade work, the engine runs a structured pipeline: query analysis → research plan → source selection → data collection (web search, blockchain, social, historical) → information synthesis → fact checking → gap analysis → report generation. It aggregates 50\+ trusted sources, uses self‑reflective passes to improve output, and keeps reports current as new data arrives. Every claim is traceable via citation management; uncertainty is labeled explicitly. Outputs range from short briefs (e.g., unlock schedules and likely impact) to multi‑section notes with charts and references.
+The server also runs an **MCP stdio protocol** for AI agent integration via OpenClaw and Claude Desktop — the same endpoints, exposed as structured tool calls.
 
-![Research Pipeline.png](/images/ResearchPipeline.png)
+# Signal Fusion Engine
 
-### **Smart Money Analytics Engine**
+The mathematical core of the platform. It ingests raw data from multiple independent sources and produces a single directional conviction score per asset — designed to surface opportunities where smart money behavior, technical structure, and derivatives flow all converge.
 
-This engine tracks and interprets wallet behavior at scale. Components include a **Wallet Profiler** (role and performance labeling), **Pattern Recognition** (strategy fingerprints and group dynamics), **Performance Tracker** (PnL, win‑rate, ROI over time), and a **Copy‑Trading Layer** (follow successful strategies with risk controls, paper mode by default). Advanced capabilities: behavioral analysis (intent, hold time, venue rotation), network mapping (clusters and influence paths), predictive modeling (near‑term actions given recent sequences), and risk assessment (drawdown, liquidity, spread, slippage). Results integrate directly into dashboard widgets, extension answers, and alerts.
+```mermaid
+flowchart LR
+    subgraph "Smart Money Telemetry"
+        SM1[Wallet Consensus<br/>Long vs Short wallet ratio]
+        SM2[Value Conviction<br/>USD exposure per direction]
+        SM3[Behavioral Confidence<br/>Scaled by wallet credibility]
+        SM1 --> SM_SCORE[SM Conviction Score]
+        SM2 --> SM_SCORE
+        SM3 --> SM_SCORE
+    end
 
-### **3D Network Visualization**
+    subgraph "Technical Analysis"
+        TA1[Trend Indicators<br/>RSI · MACD · SuperTrend]
+        TA2[Momentum & Volatility<br/>ADX · Stochastic · BB · ATR]
+        TA3[Moving Averages<br/>EMA · SMA crossovers]
+        TA1 --> TA_AGG[Multi-Timeframe TA Score]
+        TA2 --> TA_AGG
+        TA3 --> TA_AGG
+    end
 
-This WebGL system lets you _see_ the market’s wiring. A Three.js rendering engine handles large scenes with GPU instancing and occlusion culling; a graph processor arranges nodes with force‑directed layouts; an interaction layer supports zoom/pan/rotate, selection, filtering, and path tracing. Cluster views highlight exchange hubs, contract nodes, smart‑money groups, and your wallet. Money flows animate with direction and relative size, and filters let you focus by time window, token, or role. Updates stream into the scene in real time so you can follow changes as they happen.
+    subgraph "Derivatives & Sentiment"
+        MK1[Funding Rate Regime]
+        MK2[Open Interest Shifts]
+        MK3[Liquidation Clustering]
+        MK4[Taker Flow Imbalance]
+        MK5[Sentiment & Mispricing]
+        MK1 --> MK_SCORE[Market Conviction Score]
+        MK2 --> MK_SCORE
+        MK3 --> MK_SCORE
+        MK4 --> MK_SCORE
+        MK5 --> MK_SCORE
+    end
 
-## AI/ML & Data Pipeline
+    SM_SCORE --> COMP[Composite Signal<br/>Direction + Confidence]
+    TA_AGG --> COMP
+    MK_SCORE --> COMP
+```
 
-![Pipeline Components.png](/images/PipelineComponents.png)
+Each source produces an independent conviction score. The fusion engine combines them with **adaptive weighting** — configurable per agent and per strategy, so a scalping agent can weight short-timeframe TA heavily while a whale-following agent emphasizes smart money consensus. Confidence increases when multiple independent sources converge on the same direction; it decreases when they diverge, signaling caution.
 
-### **Model Architecture**
+# Smart Money Telemetry
 
-Recommendations combine collaborative filtering and deep learning to rank opportunities aligned with your risk and horizon. An NLP pipeline parses natural‑language questions and page context. Pattern recognition (including chart structure detection where useful) flags notable behaviors without overfitting to noise. Time‑series analysis supports volatility regimes, trend detection, and short‑term risk estimates.
+The backbone of ZoneIn's alpha generation. The smart money engine continuously profiles and tracks the highest-conviction wallets on Hyperliquid — a growing set of addresses selected by realized performance, not self-reported claims. Each wallet is characterized by realized PnL, win rate, hold duration, venue preference, leverage patterns, and behavioral fingerprints, then classified into behavioral clusters that expand as new trading patterns emerge.
 
-### **Training Infrastructure**
+For each tracked asset, the engine computes **multi-timeframe directional consensus**: how many wallets are long vs short, what USD volume is behind each direction, and how that consensus has shifted over time. When multiple high-credibility wallets align on the same direction — especially across timeframes — that's institutional-grade signal.
 
-Models improve continuously through a controlled data pipeline. New data feeds into scheduled and streaming training jobs; an A/B framework measures lift; versioning supports safe rollbacks; performance monitoring tracks accuracy and drift in real time.
+For full detail on behavioral profiling, credibility scoring, cluster detection, and per-asset-type signal depth, see [Smart Money Analytics](/capabilities/for-users/smart-money-tracking).
 
-### **Data Processing Pipeline**
+# Similarity Engines
 
-Ingestion covers API collectors and websocket streams from blockchains, markets, and social platforms. Batch and stream processors validate, normalize, and enrich events. Feature engineering produces metrics such as **whale_netflow_1h**, **pool_depth@slippage**, **sentiment_delta_24h**, and **influence_score**—each with a documented formula, freshness target, validation rules, and lineage. Storage is layered: Redis for hot reads, PostgreSQL/Timescale for warm historical queries, and S3 for cold archives and audits. Performance is maintained with sub‑second paths for critical metrics, horizontal scaling across nodes, and fault tolerance that recovers gracefully from provider failures.
+Three dedicated engines compute position similarity between traders using cosine similarity over position vectors — PM (prediction market outcomes), Perp (perpetual futures direction), and Spot (token holdings). Each engine builds pairwise similarity graphs, runs community detection, and identifies consensus positions within each cluster.
 
-## Security, Integration & Endgame
+These engines power the visual clustering in [Position Graphs](/capabilities/for-users/3d-network-graph) and the programmatic similarity queries in the [API](/capabilities/for-users/ai-assistant). For full detail, see [Smart Money Analytics — Similarity & Cluster Detection](/capabilities/for-users/smart-money-tracking#similarity--cluster-detection).
 
-### **Security & Privacy**
+# Trader Style Analyzer
 
-Transport is encrypted end to end; API keys and credentials are stored in secure vaults with rotation; internal services use least‑privilege access and rate limiting. The extension does not collect full browsing history and never asks for private keys. Logs are scrubbed of personal data and kept only as long as needed. Compliance controls include GDPR‑aligned handling, audit trails, and role‑based permissions.
+A comprehensive profiling system that characterizes trading behavior across multiple dimensions — risk profile, timing intelligence, market selection, performance decomposition, and automated style classification. Scoring uses a multi-factor formula that weighs realized ROI, win rate, profit factor, consistency, volume, trade frequency, and hold patterns — ensuring that high scores reflect sustained edge, not lucky streaks.
 
-### **Integration Framework**
+For the full breakdown of profiling dimensions, see [Smart Money Analytics — Behavioral Analysis](/capabilities/for-users/smart-money-tracking#behavioral-analysis--style-profiling).
 
-A unified API gateway manages access to external services with rate‑limit management, fallback mechanisms, and response caching. Supported integrations include major blockchain providers (Moralis, Alchemy, QuickNode), market data (CoinGecko, CoinMarketCap), social platforms (Twitter/X, Reddit, Discord), and curated research sources (news aggregators and tools like Tavily). All integrations feed the same feature store to keep results consistent across components.
+# Agent Framework
 
-## Future Endgame
+A **domain-agnostic framework** for building autonomous agents that supports multiple paradigms:
 
-Planned enhancements focus on accuracy, autonomy, and safety: fine‑tuned LLMs for crypto‑specific reasoning; optional smart‑contract interactions with previews and confirmations; decentralized components where community‑powered infrastructure makes sense; and multi‑agent systems that coordinate tokenomics, security, and social analysis. Each addition must pass two tests: it reduces time to a correct answer, and it can be explained clearly.
+```mermaid
+graph TB
+    subgraph "Agent Runner"
+        OA[Observation Aggregator<br/>SM Source · TA Source · Market Source]
+        OA --> AGENT[Agent<br/>Trading · PM · RL]
+        AGENT --> POLICY[Policy Layer<br/>LLM · Rule · RL · Ensemble · Hybrid]
+        POLICY --> EXEC[Action Executor<br/>Hyperliquid · Paper · Custom]
+    end
+
+    subgraph "Environment (RL)"
+        ENV[Gym-Compatible<br/>Trading Simulation]
+    end
+
+    POLICY -.-> ENV
+    ENV -.-> POLICY
+```
+
+- **Core Abstractions**: `BaseAgent`, `Observation` (universal input), `Action`, `Policy`, `Environment`, `AgentRunner`
+- **Policy Types**: LLM, Rule, RL (reinforcement learning), Ensemble (weighted combination), and Hybrid (LLM + rule constraints)
+- **LLM Integration**: OpenAI, Anthropic, DeepSeek, and custom providers
+- **Storage**: MongoDB persistence for agent state, trade history, and configuration
+- **Plugins**: Domain-specific extensions (trading plugin for Hyperliquid)
+- **Continuous Learning**: Daily feedback loop analyzes every closed trade, detects recurring failure patterns, enriches LLM prompt context with past outcomes, and surfaces threshold-tuning recommendations — agents get smarter with every trade
+
+For full detail on strategy presets, trigger conditions, vault management, HITL trade plans, backtesting, the daily learning cycle, and manual orders, see [Trading Agents](/capabilities/for-users/deep-research).
+
+# Telegram Integration
+
+The Telegram bot provides **trade notifications** (auto agents) and **HITL trade plan approval** (inline Approve/Reject/Detail buttons — zero delay, zero LLM cost). Setup requires only a bot token from @BotFather; the system auto-detects the user's chat ID on `/start`.
+
+For the full setup flow, sequence diagram, and approval options, see [MCP API — Telegram Bot](/capabilities/for-users/ai-assistant#telegram-bot).
+
+# Security & Trust
+
+- **Non‑custodial**: Agent vaults are user‑controlled — the platform cannot access your funds
+- **View‑only analysis**: Private keys are never requested; all data comes from public on‑chain sources
+- **Financial safety**: All financial commands require explicit `--confirm` before execution
+- **Encrypted transport**: HTTPS end to end; API key authentication on all protected endpoints
+
+# Future Endgame
+
+ZoneIn is building toward a future where on-chain intelligence and agentic execution are indistinguishable — where signal, intent, and action collapse into a single loop:
+
+- **ERC-8004 & x402**: Verifiable on-chain agent reputation and pay-per-request micropayments for premium data — detailed in [MCP API — Web3 Trust & Payments](/capabilities/for-users/ai-assistant#web3-trust--payments-roadmap)
+- **RL-Based & Hybrid Policies**: The framework already supports Gym-compatible environments and ensemble policies — future agents will learn from market feedback loops
+- **Expanded Venue Coverage**: Beyond Hyperliquid and Polymarket to new on-chain venues as they capture volume
+- **Strategy Marketplace**: A curated ecosystem where agent configurations can be shared, backtested, and deployed — with verifiable performance on-chain
+
+Each addition must pass two tests: it compresses the trader's OODA loop, and it can be explained clearly.

@@ -1,0 +1,100 @@
+---
+title: "Getting Started"
+description: "From zero to trading in 3 steps — describe your strategy, backtest with real data, deploy an agent that evolves."
+---
+
+# From Zero to Trading in 3 Steps
+
+## 1. Describe Your Strategy
+
+Tell ZoneIn what you want in plain English — via Telegram Bot, the [API](https://mcp.zonein.xyz/docs), or the [OpenClaw skill](https://clawhub.ai/phutt-bwai/zonein). No infrastructure engineering needed — just describe your trading intent.
+
+> _"I want a BTC swing trader with 5x leverage. Use conservative risk — max 2% per trade. Follow top whale cluster signals and only enter when funding rate is negative."_
+
+ZoneIn translates your intent into a fully configured agent: strategy preset, leverage, stop-loss, take-profit, signal filters, risk parameters, timeframe — all structured automatically from natural language.
+
+Works via **Telegram Bot** or the **ZoneIn API**. Natural language → structured policy in seconds.
+
+## 2. Backtest & Validate
+
+Before risking capital, run full-stack backtests on your strategy with **real market data**. See PnL, win rate, drawdown, and every individual trade — all simulated against actual historical signals and OHLC prices.
+
+The backtest gives you concrete numbers: Sharpe ratio, max drawdown, profit factor, best/worst trade, equity curve, and daily PnL breakdown. If the numbers don't work, refine your strategy and re-test — before deploying a single dollar.
+
+## 3. Deploy & Evolve
+
+Your agent goes live immediately on Hyperliquid via a non-custodial vault. But deployment isn't the end — it's the beginning.
+
+After every trade, the **Learning Engine** runs post-trade analysis and suggests parameter improvements. Your agent evolves from v1 → v2 → v3 automatically — adapting to market conditions, learning from failures, and getting sharper with every trade cycle.
+
+**Three ways in:**
+
+- **Telegram Bot** — Describe your strategy in chat, approve trades with one tap
+- **[OpenClaw Skill](https://clawhub.ai/phutt-bwai/zonein)** — `npx clawhub@latest install zonein` — full access from any MCP-compatible AI assistant
+- **[REST API](https://mcp.zonein.xyz/docs)** — Programmatic agent creation, backtesting, and management
+
+---
+
+# Explore the Platform
+
+Already installed? Here's what's behind the signals your AI assistant is querying.
+
+## AI Dashboard
+
+Visit [app.zonein.xyz](https://app.zonein.xyz) — assets ranked by composite conviction score across four markets:
+
+- [**Perpetual Futures**](https://app.zonein.xyz/perp/) — The deepest signal stack. SM consensus + TA + derivatives flow
+- [**Spot Holdings**](https://app.zonein.xyz/spot) — What smart money is accumulating before narratives break
+- [**HIP-3 DEX**](https://app.zonein.xyz/hip3) — SM activity on Hyperliquid's builder-deployed perpetual DEXes
+- [**Prediction Markets**](https://app.zonein.xyz/pm) — Where top-ranked Polymarket traders place conviction bets
+
+**Click any asset** to open its detail page: OHLC chart with SM strength overlay, trade flow bubbles, liquidation heatmap, derivatives indicators, technical gauges, and a full conviction score breakdown. Everything is decomposable — trace any signal back to the specific wallets, indicators, or market conditions that produced it.
+
+## Position Graphs
+
+Open any [Position Graph](https://app.zonein.xyz/perp/) to see the full topology of smart money — every tracked wallet connected to every position they hold.
+
+- **Perp** — Who's LONG, who's SHORT, with how much leverage
+- **Spot** — Who's accumulating what, and whether they're in profit
+- **PM** — Which top prediction market traders agree on the same outcomes
+- **HIP-3** — SM positions on DEXes most traders don't even monitor
+
+Look for **clusters** — when multiple high-credibility wallets converge on the same asset in the same direction, that's consensus you won't find anywhere else.
+
+---
+
+# Deploy Your First Agent
+
+Ready to act on the signals? Deploy an agent that trades on Hyperliquid 24/7, using the same intelligence you see on the dashboard.
+
+## Set up
+
+1. **Get your API key** (if you haven't already) — sign up at [app.zonein.xyz](https://app.zonein.xyz), generate a `zn_` key. Public endpoints (dashboard signals, TA, derivatives) require no auth. SM data, PM data, and agents do
+2. **Pick a strategy preset** — Scalping Pro, Momentum Hunter, Swing Trader, Whale Follower, Stable Grower, Precision Master, or Composite — each tuned with optimized timeframe weights and risk parameters
+3. **Choose your mode** — **Auto** (executes immediately) or **HITL** (sends trade plans to Telegram for your approval)
+4. **Backtest first** — Run historical simulations against real signals and OHLC prices before risking capital
+5. **Fund your vault** — Send USDC to your agent's Arbitrum address. Gas is sponsored by ZoneIn — no ETH needed
+6. **Enable** — The agent starts monitoring signals and executing (or proposing) trades
+
+Start with **HITL mode** to build trust. Each trade plan arrives with full evidence — SM consensus, TA levels, derivatives context, LLM reasoning — and one-tap Approve/Reject.
+
+## Connect Telegram
+
+Two minutes to set up — essential for HITL mode and trade notifications:
+
+1. Create a bot via [@BotFather](https://t.me/BotFather) — get the bot token
+2. Run `telegram-setup --token YOUR_BOT_TOKEN`
+3. Send `/start` to your bot
+
+**Auto agents** send execution notifications (opened, closed, PnL). **HITL agents** send trade plans with inline **Approve / Reject / Detail** buttons — one tap, zero LLM cost, instant execution.
+
+---
+
+# Go Deeper
+
+- [AI Dashboard](/capabilities/for-users/ai-powered-dashboard) — How signal fusion, SM liquidation maps, and conviction decomposition work
+- [Smart Money Analytics](/capabilities/for-users/smart-money-tracking) — Wallet profiling, behavioral clusters, credibility scoring
+- [Position Graphs](/capabilities/for-users/3d-network-graph) — Graph types, use cases, and what consensus looks like
+- [Trading Agents](/capabilities/for-users/deep-research) — Custom triggers, policy layers, the daily learning cycle
+- [MCP API & Integrations](/capabilities/for-users/ai-assistant) — REST API, OpenClaw skill, Claude Desktop, Telegram bot
+- [Full API Reference](https://mcp.zonein.xyz/docs) — Every endpoint documented

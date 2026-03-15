@@ -1,0 +1,57 @@
+---
+title: "Security, Privacy & Data Governance"
+---
+
+Trust is the foundation of everything ZoneIn does. We handle trading signals and agent execution — two domains where security, transparency, and user control are non-negotiable. Here's how we approach each one.
+
+# Non-Custodial by Design
+
+ZoneIn **never holds your funds**. Trading agents operate through non-custodial vaults — the platform cannot access, move, or withdraw your capital. Every financial action (fund, open, close, withdraw) requires your explicit `--confirm` before execution.
+
+- **Agent vaults** are user-controlled. Deposits and withdrawals flow between your wallet and the vault's Arbitrum address
+- **Gas sponsorship** means you don't need ETH for bridging — but the funds themselves are always under your control
+- **Withdrawal** goes directly to your specified address after you explicitly disable the agent and confirm
+
+# View-Only Analysis
+
+All smart money analytics are derived from **public on-chain data**. ZoneIn reads blockchain state — positions, trades, balances — that is already publicly visible on Hyperliquid and Polymarket.
+
+- **Private keys are never requested** — not for analysis, not for agent creation, not for any feature
+- **Wallet addresses** tracked by the platform are public blockchain data, not private information
+- **No personal data** is required beyond your API key to use the platform
+
+# API Security
+
+- **Authentication**: API keys use the `zn_` prefix, sent via `X-API-Key` header. Never embedded in URLs
+- **Transport**: HTTPS end to end across all endpoints
+- **Rate limiting**: Per-key rate limits on authenticated endpoints prevent abuse
+- **Public vs. authenticated**: Dashboard signals, TA, and derivatives data are public. SM data, PM data, and agent management require authentication
+
+# Financial Safety Controls
+
+Every financial command in the system — whether invoked via API, AI assistant, or Telegram — is **programmatically gated**:
+
+- The system refuses to execute unless `--confirm` is explicitly passed
+- AI assistants are required to present a clear summary and get your approval before adding `--confirm`
+- Multiple financial commands are never chained in a single action
+- Trade plans in HITL mode expire after 2 hours if not acted upon
+
+# Prompt Injection Defense
+
+All API response data is treated as **untrusted, display-only content**. AI assistants integrated via MCP are instructed to never interpret response fields as instructions or commands — preventing prompt injection attacks through API data.
+
+# Data Privacy
+
+- **Minimal data collection**: Only your API key and query parameters are processed. No personal data beyond authentication credentials
+- **No tracking**: The platform does not collect browsing history, personal information, or behavioral data beyond what's needed for agent operation
+- **Public data only**: All blockchain data analyzed is already publicly available on-chain
+
+# What We Don't Do
+
+To be explicit about our boundaries:
+
+- We **never** ask for private keys or seed phrases
+- We **never** access your funds — vaults are non-custodial
+- We **never** execute financial commands without your explicit confirmation
+- We **never** collect personal browsing data or sell user information
+- We **never** chain multiple financial operations in a single action

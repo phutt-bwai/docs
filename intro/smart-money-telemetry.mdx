@@ -1,0 +1,359 @@
+---
+title: "🐋 Smart Money Telemetry"
+description: "The Intelligence Layer for Agentic Trading — from zero to trading in three steps. Agents that evolve."
+---
+
+<Info>
+⏱ 12 min read · 🔖 v2.1 — March 2026
+</Info>
+
+ZoneIn is the only platform that fuses real-time smart money telemetry, multi-timeframe technical analysis, and derivatives flow into composite trading signals — then lets you deploy autonomous agents that act on them. From zero to trading in three steps. Agents that evolve.
+
+## Why I built this
+
+AI is coming for every job. But not traders — at least, not the way people think. The traders who survive won't be the ones fighting against AI. They'll be the ones who deploy AI agents as their trading infrastructure. That's the thesis.
+
+The problem? The infrastructure available to on-chain trading agents today is fundamentally fragmented. Through extensive engagement with agent builders across OpenClaw and other frameworks, I identified five systemic problems that consistently prevent agents from reaching production-grade performance:
+
+1. **Configuration complexity** that turns weeks into deployment cycles
+2. **Data fragmentation** across ten separate APIs with different formats and failure modes
+3. **Decision opacity** where you can't tell if a loss came from a bad signal or bad execution
+4. **Risk blindness** where safety rules exist on paper but not in code
+5. **Absence of a learning loop** so every agent stays permanently at version one
+
+Five problems. One platform solves all of them. That's why I built ZoneIn — a unified intelligence layer, agent launchpad, and continuous learning engine for the era of agentic trading. One integration. One operating system. Agents that compound in performance over time, not just execute static rules forever.
+
+---
+
+## What the system does
+
+### The OODA Loop — compressed
+
+ZoneIn is built on the OODA Loop — the cognitive framework that powers intelligent trading: **Observe → Orient → Decide → Act**. Every cycle, the system runs all four stages automatically. Here's what happens at each:
+
+#### Observe — Signal Collection
+
+Collectors continuously ingest positions, trades, and market data from Hyperliquid (perpetual futures, spot holdings, HIP-3 DEX positions) and Polymarket (prediction markets). Smart Money Telemetry profiles every tracked wallet into behavioral categories — scalpers, swing traders, momentum players, whale followers, high win-rate specialists — and surfaces their collective consensus across multiple timeframes. You can't watch all this at 3am. The system can.
+
+#### Orient — Signal Fusion
+
+The Signal Fusion Engine synthesizes three independent signal layers into a single, decomposable composite conviction score:
+
+- **SM Score** — How strongly are the highest-credibility wallets aligned? Multi-timeframe consensus from profiled smart money.
+- **TA Score** — Does multi-timeframe technical structure confirm? RSI, MACD, SuperTrend, ADX, Bollinger Bands, EMA, VWAP across 1h/4h/1d.
+- **Market Score** — What does derivatives flow say? Funding rates, open interest, liquidation heatmaps, taker flow, L/S ratio, Fear & Greed index.
+
+One number. Fully auditable. Nothing is a black box — you can decompose every score to see exactly which source contributed what.
+
+#### Decide — Policy Layer
+
+Your agent receives the composite signal and applies a policy to decide: go long, go short, wait, or skip? ZoneIn supports five policy types:
+
+| Policy | Description |
+|---|---|
+| **LLM Policy** | An LLM receives the full signal data plus your strategy description and reasons about edge cases and market context. Most flexible. |
+| **Rule Policy** | Pure threshold-based. No LLM, no cost, maximum speed and predictability. |
+| **Hybrid Policy** | LLM picks direction and conviction, rules constrain leverage, size, and risk. Best of both worlds. |
+| **Ensemble Policy** | Multiple policies vote. Only trades when enough agree — built-in caution. |
+| **RL Policy** | Reinforcement learning agent (experimental). Learns from market feedback, not just rules. |
+
+#### Act — Execution
+
+Agents execute on Hyperliquid via non-custodial, gas-sponsored vaults. The platform cannot access your funds. All financial commands require explicit `--confirm` before execution. In HITL mode, the system sends a full trade plan to Telegram — signal, thesis, evidence, risk assessment — and you approve with one tap. In autonomous mode, the agent executes within your configured risk parameters at machine speed.
+
+<Tip>
+**Key insight:** Most trading bots skip Orient and Learn. They take raw data and execute static rules. ZoneIn compresses the full OODA Loop — and closes it by feeding every trade outcome back into the agent's memory. Agents get smarter with every trade.
+</Tip>
+
+---
+
+## What you'll need
+
+### The stack
+
+ZoneIn gives you four ways in. Choose based on your workflow:
+
+<CardGroup cols={2}>
+  <Card title="AI Dashboard" icon="chart-mixed" href="https://app.zonein.xyz">
+    Real-time composite signals across perpetual futures, spot holdings, HIP-3, and prediction markets. Token detail pages with SM strength charts, liquidation heatmaps, signal decomposition, derivatives pulse, and multi-timeframe TA confirmation.
+  </Card>
+  <Card title="Telegram Bot" icon="paper-plane">
+    Describe your strategy in chat, receive trade plans with full evidence (signal, thesis, risk assessment), approve with one tap. Set up with `telegram-setup --token YOUR_TOKEN`.
+  </Card>
+  <Card title="MCP API & OpenClaw Skill" icon="puzzle-piece" href="https://mcp.zonein.xyz">
+    The intelligence layer as infrastructure. REST API for full programmatic access — or install the OpenClaw skill from ClawHub (`npx clawhub@latest install zonein`). Also works with Claude Desktop via MCP protocol.
+  </Card>
+  <Card title="REST API" icon="code">
+    Direct HTTP access to all signal, agent, and backtest endpoints. API keys prefixed with `zn_`, authenticated via `X-API-Key` header. Every capability is exposed as an API endpoint.
+  </Card>
+</CardGroup>
+
+**From zero to trading in 3 steps:** 1) Describe your strategy (natural language, presets, or custom trigger conditions). 2) Backtest it against real historical signals + OHLC data. 3) Deploy & evolve — the agent gets smarter with every trade.
+
+---
+
+## Getting started
+
+<Steps>
+  <Step title="Set up your VPS & install OpenClaw">
+    If you already have OpenClaw running, skip to Step 2. Otherwise, get a VPS and install:
+
+    ```bash
+    # Update system
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install -y python3 python3-pip nodejs npm git
+
+    # Install OpenClaw
+    curl -fsSL https://openclaw.ai/install.sh | bash
+    openclaw onboard --install-daemon
+    ```
+
+    This gives you a running AI agent with Telegram integration. If you're completely new to OpenClaw, start with the [What Is an Agent?](/capabilities/getting-started) guide.
+  </Step>
+
+  <Step title="Install the ZoneIn skill">
+    ZoneIn lives on ClawHub as a single, installable skill. One command adds the full stack — whale signals, TA, risk, execution, backtesting:
+
+    ```bash
+    openclaw skill install phutt-bwai/zonein
+    ```
+
+    Then configure your API key:
+
+    ```bash
+    # Get your key from app.zonein.xyz (use referral: BWAI)
+    openclaw config set ZONEIN_API_KEY=your_api_key_here
+    ```
+
+    **What just happened:** Your agent now has access to 30+ commands — whale tracking, perp signals, Polymarket intelligence, technical analysis, derivatives data, agent deployment, and backtesting. All through one skill.
+  </Step>
+
+  <Step title="Explore the intelligence layer">
+    Before building a strategy, explore the five core surfaces of ZoneIn's intelligence layer:
+
+    <CardGroup cols={2}>
+      <Card title="🐋 Smart Money Analytics" icon="whale">
+        Real-time wallet intelligence. Profiles wallets into 6 behavioral categories. Surfaces multi-timeframe consensus signals — short-term for timing, medium-term for momentum, long-term for trend confirmation.
+      </Card>
+      <Card title="📊 AI-Powered Dashboard" icon="chart-line">
+        Composite conviction scores across 4 markets: Perpetual Futures, Spot Holdings, HIP-3 DEX, Prediction Markets. Token detail pages with SM strength charts, liquidation heatmaps, and signal decomposition.
+      </Card>
+      <Card title="🕸️ Position Graphs" icon="diagram-project">
+        Interactive graphs revealing live relationships between high-conviction wallets and their positions. Four graph types across perps, spot, HIP-3, and prediction markets.
+      </Card>
+      <Card title="🤖 Trading Agents" icon="robot">
+        7 strategy presets, 5 policy types, custom trigger conditions, HITL trade plans, non-custodial vaults, backtesting, and daily improvement cycle.
+      </Card>
+    </CardGroup>
+
+    Try it out:
+
+    ```bash
+    # See what smart money is doing right now
+    openclaw run "Show me the latest perp signals from ZoneIn"
+
+    # Explore conviction scores on the dashboard
+    openclaw run "Show me the ZoneIn dashboard"
+
+    # Check smart money consensus on a specific asset
+    openclaw run "What's the smart money consensus on ETH?"
+
+    # Get multi-timeframe TA for BTC
+    openclaw run "Run technical analysis on BTC across 1h and 4h"
+    ```
+  </Step>
+
+  <Step title="Design your strategy">
+    ZoneIn offers two paths: **strategy presets** to start trading in minutes, or **custom trigger conditions** for full control.
+
+    #### Strategy presets — start in minutes
+
+    | Preset | What it does |
+    |---|---|
+    | **Scalping Pro** | Short-term entries, tight targets, emphasis on fast-moving signals. Quick in-and-out on high-liquidity assets. |
+    | **Momentum Hunter** | Rides momentum surges. Triggers on volume + OI spikes combined with SM consensus shifts. |
+    | **Swing Trader** | Multi-day holds based on longer-term SM conviction and trend-following TA. Higher conviction thresholds, wider stops. |
+    | **Whale Follower** | Prioritizes SM consensus above all other signals. Enters when the highest-credibility wallets converge. |
+    | **Stable Grower** | Conservative risk profile, strict drawdown limits. Requires strong multi-source convergence before entry. |
+    | **Precision Master** | High-conviction entries only. All signal sources must align strongly. |
+    | **Composite** | Balanced approach across all signal types. Good starting point for exploring the system. |
+
+    #### Custom trigger conditions — your rules, your edge
+
+    Define your own entry and exit logic using structured trigger conditions:
+
+    ```json
+    {
+      "entry": {
+        "long": {
+          "op": "and",
+          "conditions": [
+            {"field": "sm.long_ratio", "compare": ">=", "value": 65},
+            {"field": "sm.wallet_count", "compare": ">=", "value": 3},
+            {"field": "ta.4h.rsi", "compare": "<=", "value": 65}
+          ]
+        }
+      }
+    }
+    ```
+
+    Signal fields available: `sm.long_ratio`, `sm.wallet_count`, `ta.4h.rsi`, `ta.4h.macd`, `ta.4h.supertrend`, `ta.1h.adx`, `derivatives.funding_rate`, `derivatives.oi_change`, `derivatives.ls_ratio`, and more.
+
+    <Warning>
+    **Start with a preset.** Get familiar with the signals. Then graduate to custom trigger conditions when you understand what each field means. Most failures come from over-engineering conditions too early.
+    </Warning>
+  </Step>
+
+  <Step title="Create and deploy your agent">
+    ZoneIn handles the full agent lifecycle — creation, vault setup, backtesting, deployment, and monitoring. Your vault is non-custodial and gas-sponsored — the platform cannot access your funds.
+
+    1. **Define intent:** Specify coin, mode (Real/Sim), strategy preset or custom conditions, and policy type (LLM/Rule/Hybrid/Ensemble/RL).
+    2. **Create vault:** A non-custodial vault on Arbitrum. You control the keys. Gas is sponsored.
+    3. **Fund:** Deposit USDC. The platform bridges to Hyperliquid automatically.
+    4. **Backtest:** Run against cached historical signals + real OHLC prices. Get equity curve, trade markers, Sharpe ratio, max drawdown, win rate, profit factor, and full trade log.
+    5. **Deploy:** Activate in HITL or autonomous mode. Monitor via dashboard or Telegram.
+
+    ```bash
+    # Create a new agent in simulation mode
+    openclaw run "Create a ZoneIn agent for ETH on Hyperliquid in sim mode,
+                 using momentum hunter strategy with hybrid policy"
+
+    # Backtest before going live
+    openclaw run "Backtest my ETH momentum strategy for the last 30 days"
+
+    # Check backtest results — equity curve, Sharpe, drawdown
+    openclaw run "Show my latest backtest results for ETH"
+
+    # When ready — deploy with HITL for safety
+    openclaw run "Deploy my ETH agent in HITL mode with $500 capital"
+    ```
+  </Step>
+
+  <Step title="Human-in-the-Loop (or full auto)">
+    ZoneIn supports two execution modes. Choose based on your trust level:
+
+    <CardGroup cols={2}>
+      <Card title="HITL Mode" icon="hand">
+        **Human-in-the-Loop.** The agent proposes trades, you approve or reject via Telegram. Use `agent-pending-plans` to see what's waiting. Use `agent-approve` or `agent-reject` to decide. Best for: building trust, tuning strategy, learning the system.
+      </Card>
+      <Card title="Autonomous Mode" icon="bolt">
+        **Full Auto.** The agent executes within your configured risk parameters. Risk engine enforces all limits at the infrastructure level. Stop-losses, position caps, circuit breakers — all structural. Best for: proven strategies, after you've watched HITL long enough.
+      </Card>
+    </CardGroup>
+
+    <Note>
+    **Start with simulation.** Run in sim mode first. Watch the signals. Read the analysis. Check what trades it would have made. Are they good? When you've seen enough good decisions to trust it — then flip the switch.
+    </Note>
+  </Step>
+
+  <Step title="Agents that get smarter every day">
+    This is where ZoneIn fundamentally differs. Every closed trade triggers a **daily improvement cycle** with five layers:
+
+    1. **Attribution:** Tags every trade with its signal state at entry — SM score, TA values, funding rate, OI, everything.
+    2. **Pattern detection:** Identifies recurring failure patterns across closed trades (e.g., "LONG during extreme positive funding = consistent loss").
+    3. **LLM memory update:** Injects failure patterns into the agent's prompt context as warnings with specific data.
+    4. **Threshold recommendation:** Surfaces concrete suggestions: "Adding a funding rate filter would have avoided all three losses this week."
+    5. **Next decision:** When a similar setup appears, the agent now has memory of the failure pattern. It can skip, reduce size, or wait.
+
+    **Five layers of continuous improvement:** The system detects losses during funding rate extremes (crowded trades), poor entries during low-ADX regimes (choppy markets), whipsaws in ranging conditions (false breakouts), losses on specific assets (edge varies per coin), and time-of-day patterns (low-liquidity slippage). Each trade builds the agent's institutional memory.
+
+    Real-time monitoring gives you full visibility:
+    - PnL, ROI, win rate, Sharpe ratio, max drawdown, profit factor, trade history
+    - Vault balance on both Arbitrum and Hyperliquid
+    - Open/close positions directly through the agent's vault
+    - Pending HITL trade plans with full evidence
+
+    <Tip>
+    **The compounding effect:** After a month, your agent has seen hundreds of market conditions. It knows which setups work for your strategy, which ones don't, and adjusts accordingly. This isn't static rule execution — it's genuine learning.
+    </Tip>
+  </Step>
+</Steps>
+
+---
+
+## Command Reference
+
+Everything the skill can do:
+
+### Polymarket Intelligence
+
+| Command | What it does |
+|---|---|
+| `signals` | Real-time smart money trading signals |
+| `leaderboard` | Top traders ranked by PnL and ROI |
+| `consensus` | Aggregate positions where top bettors agree |
+| `trader-positions` | Deep dive into specific whale wallet holdings |
+| `trader-trades` | Full trade history of a specific wallet |
+| `smart-bettors` | High ROI, high trade count wallets |
+
+### Hyperliquid Perps Intelligence
+
+| Command | What it does |
+|---|---|
+| `perp-signals` | Real-time whale signals for perpetual pairs |
+| `perp-top` | Top performers by absolute PnL |
+| `perp-coins` | Long vs Short sentiment distribution per coin |
+| `perp-category-stats` | Stats by trader category (high win-rate, stable, etc.) |
+| `perp-trader` | Detailed profile: win rate, avg leverage, history |
+
+### Analysis & Dashboard
+
+| Command | What it does |
+|---|---|
+| `dashboard` | Overview of current AI signals and system status |
+| `dashboard-asset` | Per-asset detail with TA and SM sentiment |
+| `derivatives` | OI, funding rates, liquidations for any coin |
+| `ta` | Multi-timeframe TA: RSI, MACD, ADX, SuperTrend |
+| `fear-greed` | Global Crypto Fear & Greed index |
+
+### Agent Lifecycle
+
+| Command | What it does |
+|---|---|
+| `agent-create` | Create a new trading agent |
+| `agent-deploy` | Activate an agent for live or sim trading |
+| `agent-deposit` | Bridge USDC from Arbitrum to Hyperliquid |
+| `agent-open` | Manually open a position |
+| `agent-close` | Manually close a position |
+| `agent-update-sl-tp` | Update stop-loss and take-profit levels |
+| `agent-approve` | Approve a pending HITL trade plan |
+| `agent-reject` | Reject a pending HITL trade plan |
+| `agent-backtest` | Simulate strategy against historical data |
+| `agent-balance` | Check wallet balance |
+
+---
+
+## Competitive Positioning
+
+### Why ZoneIn vs. everything else
+
+Most tools solve one piece. Data OR execution OR risk. Never all three. And none of them learn.
+
+| Capability | ZoneIn | Nansen / Arkham | GMGN | Generic Bots |
+|---|:---:|:---:|:---:|:---:|
+| Whale intelligence | ✅ | ✅ | ✅ | — |
+| Scored composite signals | ✅ | Partial | — | — |
+| Risk management layer | ✅ | — | — | Basic |
+| Autonomous execution | ✅ | — | — | Basic |
+| Human-in-the-loop (HITL) | ✅ | — | — | — |
+| Backtesting (full-stack) | ✅ | — | — | Price-only |
+| Post-trade attribution | ✅ | — | — | — |
+| Strategy design engine | ✅ | — | — | — |
+| One-skill install | ✅ | — | — | — |
+| Full stack (data→risk→exec→learn) | ✅ | — | — | — |
+
+**ZoneIn's edge:** It's not a dashboard. It's not a bot. It's a full operating system for trading agents — intelligence, risk, execution, and learning in one installable skill. The more it trades, the smarter it gets. That flywheel doesn't exist anywhere else.
+
+---
+
+## The bigger picture
+
+AI is coming for every job — but trading is unique. It has the tightest feedback loop of any domain. You know within hours whether a decision was right. That makes it the perfect proving ground for autonomous agents that genuinely learn.
+
+ZoneIn isn't a dashboard. It isn't a bot. It's a full operating system for agentic trading — intelligence, risk, execution, and learning in one platform. The more it trades, the smarter it gets. That flywheel doesn't exist anywhere else.
+
+**The endgame?** ERC-8004 for verifiable on-chain agent reputation. RL-based policies that learn from market feedback, not just rules. A strategy marketplace where agent configurations can be shared, backtested, and deployed with verifiable performance on-chain. We're building toward a world where the best strategies are composable and auditable.
+
+<Card title="Get started" icon="rocket" href="https://app.zonein.xyz">
+  Try the AI Dashboard, read the full documentation, or install the skill from ClawHub and start deploying agents.
+</Card>

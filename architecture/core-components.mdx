@@ -128,19 +128,19 @@ The backbone of ZoneIn's alpha generation. The smart money engine continuously p
 
 For each tracked asset, the engine computes **multi-timeframe directional consensus**: how many wallets are long vs short, what USD volume is behind each direction, and how that consensus has shifted over time. When multiple high-credibility wallets align on the same direction — especially across timeframes — that's institutional-grade signal.
 
-For full detail on behavioral profiling, credibility scoring, cluster detection, and per-asset-type signal depth, see [Smart Money Analytics](/features/smart-money-tracking).
+For full detail on behavioral profiling, credibility scoring, cluster detection, and per-asset-type signal depth, see [Smart Money Analytics](/capabilities/for-users/smart-money-tracking).
 
 # Similarity Engines
 
 Three dedicated engines compute position similarity between traders using cosine similarity over position vectors — PM (prediction market outcomes), Perp (perpetual futures direction), and Spot (token holdings). Each engine builds pairwise similarity graphs, runs community detection, and identifies consensus positions within each cluster.
 
-These engines power the visual clustering in [Position Graphs](/features/position-graph) and the programmatic similarity queries in the [API](/features/mcp-api). For full detail, see [Smart Money Analytics — Similarity & Cluster Detection](/features/smart-money-tracking#similarity--cluster-detection).
+These engines power the visual clustering in [Position Graphs](/capabilities/for-users/3d-network-graph) and the programmatic similarity queries in the [API](/capabilities/for-users/ai-assistant). For full detail, see [Smart Money Analytics — Similarity & Cluster Detection](/capabilities/for-users/smart-money-tracking#similarity--cluster-detection).
 
 # Trader Style Analyzer
 
 A comprehensive profiling system that characterizes trading behavior across multiple dimensions — risk profile, timing intelligence, market selection, performance decomposition, and automated style classification. Scoring uses a multi-factor formula that weighs realized ROI, win rate, profit factor, consistency, volume, trade frequency, and hold patterns — ensuring that high scores reflect sustained edge, not lucky streaks.
 
-For the full breakdown of profiling dimensions, see [Smart Money Analytics — Behavioral Analysis](/features/smart-money-tracking#behavioral-analysis--style-profiling).
+For the full breakdown of profiling dimensions, see [Smart Money Analytics — Behavioral Analysis](/capabilities/for-users/smart-money-tracking#behavioral-analysis--style-profiling).
 
 # Agent Framework
 
@@ -170,13 +170,13 @@ graph TB
 - **Plugins**: Domain-specific extensions (trading plugin for Hyperliquid)
 - **Continuous Learning**: Daily feedback loop analyzes every closed trade, detects recurring failure patterns, enriches LLM prompt context with past outcomes, and surfaces threshold-tuning recommendations — agents get smarter with every trade
 
-For full detail on strategy presets, trigger conditions, vault management, HITL trade plans, backtesting, the daily learning cycle, and manual orders, see [Trading Agents](/features/trading-agents).
+For full detail on strategy presets, trigger conditions, vault management, HITL trade plans, backtesting, the daily learning cycle, and manual orders, see [Trading Agents](/capabilities/for-users/deep-research).
 
 # Telegram Integration
 
 The Telegram bot provides **trade notifications** (auto agents) and **HITL trade plan approval** (inline Approve/Reject/Detail buttons — zero delay, zero LLM cost). Setup requires only a bot token from @BotFather; the system auto-detects the user's chat ID on `/start`.
 
-For the full setup flow, sequence diagram, and approval options, see [MCP API — Telegram Bot](/features/mcp-api#telegram-bot).
+For the full setup flow, sequence diagram, and approval options, see [MCP API — Telegram Bot](/capabilities/for-users/ai-assistant#telegram-bot).
 
 # Security & Trust
 
@@ -189,7 +189,7 @@ For the full setup flow, sequence diagram, and approval options, see [MCP API �
 
 ZoneIn is building toward a future where on-chain intelligence and agentic execution are indistinguishable — where signal, intent, and action collapse into a single loop:
 
-- **ERC-8004 & x402**: Verifiable on-chain agent reputation and pay-per-request micropayments for premium data — detailed in [MCP API — Web3 Trust & Payments](/features/mcp-api#web3-trust--payments-roadmap)
+- **ERC-8004 & x402**: Verifiable on-chain agent reputation and pay-per-request micropayments for premium data — detailed in [MCP API — Web3 Trust & Payments](/capabilities/for-users/ai-assistant#web3-trust--payments-roadmap)
 - **RL-Based & Hybrid Policies**: The framework already supports Gym-compatible environments and ensemble policies — future agents will learn from market feedback loops
 - **Expanded Venue Coverage**: Beyond Hyperliquid and Polymarket to new on-chain venues as they capture volume
 - **Strategy Marketplace**: A curated ecosystem where agent configurations can be shared, backtested, and deployed — with verifiable performance on-chain

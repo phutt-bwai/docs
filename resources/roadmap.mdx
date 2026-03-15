@@ -1,0 +1,67 @@
+---
+title: "Roadmap"
+description: "ZoneIn development roadmap — from intelligence layer to autonomous trading ecosystem."
+---
+
+# ZoneIn Roadmap
+
+ZoneIn is building toward a future where the best trading intelligence is accessible to everyone — not locked behind institutional walls — and where agents can act on that intelligence autonomously, transparently, and with verifiable track records.
+
+Here's where we are and where we're going.
+
+# What's Live Now
+
+## Intelligence Layer
+
+- **AI Dashboard** — Real-time composite signals across [Perp](https://app.zonein.xyz/perp/), [Spot](https://app.zonein.xyz/spot), [HIP-3](https://app.zonein.xyz/hip3), and [Prediction Markets](https://app.zonein.xyz/pm) on Hyperliquid and Polymarket
+- **Smart Money Telemetry** — Continuous profiling of high-conviction wallets by realized performance, multi-timeframe consensus, behavioral clustering, and similarity detection
+- **Signal Fusion Engine** — Adaptive weighting of SM telemetry + multi-timeframe TA + derivatives flow into a single decomposable conviction score
+- **Token Detail Pages** — OHLC charts with SM strength overlay, trade flow bubbles, SM liquidation heatmap, funding rate histograms, derivatives dashboard, technical gauges
+- **Position Graphs** — Interactive bipartite graphs showing the full flow topology between SM wallets and their positions (Perp, Spot, PM, HIP-3)
+
+## Execution Layer
+
+- **Trading Agents** — Strategy presets + custom triggers, LLM/Rule/Hybrid/Ensemble policies, non-custodial vaults with gas-sponsored USDC bridging on Hyperliquid
+- **HITL Trade Plans** — Full-evidence trade proposals with one-tap Telegram approval
+- **Backtesting** — Historical simulation against real signals and OHLC prices
+- **Continuous Learning** — Daily feedback loop: trade attribution, failure pattern detection, prompt context enrichment, threshold self-tuning
+
+## API & Integrations
+
+- **REST API** at [mcp.zonein.xyz/docs](https://mcp.zonein.xyz/docs) — Full programmatic access to signals, SM data, agents, and backtesting
+- **MCP Protocol** — AI assistant integration for OpenClaw, Claude Desktop, and any MCP-compatible client
+- **Telegram Bot** — Trade notifications and HITL approval with inline buttons
+
+# What's Next
+
+## Deeper Intelligence
+
+- **Expanded SM wallet coverage** — Continuously growing the labeled wallet set with automated discovery of high-performing addresses
+- **Sentiment and narrative signals** — Integrating social and news sentiment as an additional signal source in the fusion engine
+- **Cross-venue mispricing detection** — Identifying pricing inefficiencies between Hyperliquid perps, HIP-3 DEXes, and spot markets
+- **Enhanced TA models** — Adding volatility regime detection and adaptive indicator weighting per market condition
+
+## Smarter Agents
+
+- **RL-based policies** — Reinforcement learning agents trained in Gym-compatible trading environments, learning from market feedback loops
+- **Multi-agent orchestration** — Multiple agents with different strategies sharing intelligence and coordinating execution
+- **Strategy marketplace** — A curated ecosystem where agent configurations can be shared, backtested, and deployed — with verifiable performance on-chain
+- **Automated threshold optimization** — Agents that self-tune their trigger conditions based on rolling backtest results
+
+## Web3 Trust & Payments
+
+- **ERC-8004 Verifiable Agent Reputation** — Every agent gets an on-chain identity with auditable performance history. Portable reputation that follows agents across platforms — solving the trust gap in copy-trading and alpha bots
+- **x402 Pay-Per-Request** — Micropayments for premium signal data. No subscriptions — pay per API call with stablecoin settlement. Signal quality determines revenue in a true intelligence marketplace
+
+## Expanded Coverage
+
+- **New on-chain venues** — As new high-volume venues emerge in the on-chain economy, ZoneIn will expand signal coverage and agent execution support
+- **Additional prediction market platforms** — Beyond Polymarket, tracking top traders across emerging prediction market venues
+- **Cross-chain smart money** — Extending wallet profiling and signal fusion to smart money activity across multiple chains
+
+# Guiding Principles
+
+Every addition to the roadmap must pass two tests:
+
+1. **Does it compress the trader's OODA loop?** If it doesn't help traders observe faster, orient better, decide smarter, or act quicker — it doesn't ship
+2. **Can it be explained clearly?** If a feature's value can't be articulated in one sentence, it needs more thought before building

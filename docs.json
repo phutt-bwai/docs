@@ -16,29 +16,53 @@
   "navigation": {
     "groups": [
       {
-        "group": "Getting Started",
-        "icon": "play",
+        "group": "Intro",
+        "icon": "rocket",
         "pages": [
-          "intro"
+          "intro",
+          "intro/welcome-to-zonein",
+          "intro/smart-money-telemetry"
+        ]
+      },
+      {
+        "group": "Zonein Core Capabilities & Features",
+        "icon": "brain-circuit",
+        "pages": [
+          "capabilities/getting-started",
+          "capabilities/for-users/ai-powered-dashboard",
+          "capabilities/for-users/smart-money-tracking",
+          "capabilities/for-users/3d-network-graph",
+          "capabilities/for-users/deep-research",
+          "capabilities/for-users/ai-assistant"
         ]
       },
       {
         "group": "Architecture",
         "icon": "cube",
         "pages": [
-          "architecture/overview",
-          "architecture/core-components"
+          "architecture/core-components",
+          "architecture/overview"
         ]
       },
       {
-        "group": "Features",
-        "icon": "star",
+        "group": "Security, Privacy & Data Governance",
+        "icon": "shield-check",
         "pages": [
-          "features/ai-powered-dashboard",
-          "features/smart-money-tracking",
-          "features/position-graph",
-          "features/trading-agents",
-          "features/mcp-api"
+          "security"
+        ]
+      },
+      {
+        "group": "Roadmap",
+        "icon": "map",
+        "pages": [
+          "resources/roadmap"
+        ]
+      },
+      {
+        "group": "FAQ",
+        "icon": "circle-question",
+        "pages": [
+          "faq"
         ]
       }
     ]
@@ -57,20 +81,20 @@
     "primary": {
       "type": "button",
       "label": "Launch App",
-      "href": "https://app.zonein.xyz/"
+      "href": "https://app.zonein.xyz"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {

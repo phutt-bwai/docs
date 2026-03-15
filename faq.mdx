@@ -1,0 +1,78 @@
+---
+title: "Frequently Asked Questions (FAQ)"
+description: "Common questions about ZoneIn's intelligence platform, trading agents, and smart money analytics."
+---
+
+### **General**
+
+**What is ZoneIn?**
+
+ZoneIn is an intelligence layer and agent launchpad for on-chain traders. It fuses real-time smart money telemetry, multi-timeframe technical analysis, and derivatives flow into composite trading signals — then lets you act on those signals through autonomous trading agents on Hyperliquid. The mission: **Zone In. Think faster. Act earlier.**
+
+**Who is ZoneIn for?**
+
+Active traders on Hyperliquid and Polymarket — from scalpers who need fast signals to swing traders who want deep conviction analysis. Whether you trade perps, spot, HIP-3 DEX positions, or prediction markets, ZoneIn surfaces the edge and lets you act on it.
+
+**What markets does ZoneIn cover?**
+
+Four asset classes on a single platform: [Perpetual Futures](https://app.zonein.xyz/perp/), [Spot Holdings](https://app.zonein.xyz/spot), [HIP-3 DEX](https://app.zonein.xyz/hip3) positions on Hyperliquid, and [Prediction Markets](https://app.zonein.xyz/pm) on Polymarket.
+
+**How do I access ZoneIn?**
+
+Through the [AI Dashboard](https://app.zonein.xyz) web app, the [REST API](https://mcp.zonein.xyz/docs), AI assistants via MCP protocol (OpenClaw, Claude Desktop), or a Telegram bot for trade notifications and HITL approval.
+
+### **Signals & Data**
+
+**How quickly does data update?**
+
+Collectors continuously ingest on-chain data from Hyperliquid and Polymarket. Signals are processed and served with sub-second latency via in-memory caching. What you see on the dashboard is live.
+
+**What is the composite conviction score?**
+
+It's the fusion of three independent signal sources: **Smart Money Telemetry** (wallet consensus, value conviction, behavioral confidence), **Technical Analysis** (multi-timeframe indicators across RSI, MACD, SuperTrend, ADX, and more), and **Derivatives Flow** (funding rate, OI, liquidation clustering, taker flow). When all three converge on the same direction, conviction peaks.
+
+**What makes your smart money analytics different?**
+
+Most wallet trackers show one address at a time with no context on credibility. ZoneIn profiles wallets by **realized trading performance** — PnL, win rate, hold patterns, behavioral classification — then computes multi-timeframe consensus across hundreds of profiled wallets. You see not just what wallets are doing, but who's doing it, how credible they are, and who else agrees with them.
+
+**Can I see exactly why a signal says LONG or SHORT?**
+
+Yes. Every signal is fully decomposable. Click any asset on the dashboard and you'll see the SM score breakdown (wallet count, directional split, USD conviction), TA readings per timeframe, and the full derivatives environment (funding, OI, liquidation, taker flow). Nothing is a black box.
+
+### **Trading Agents**
+
+**Can ZoneIn execute trades for me?**
+
+Yes. Trading agents execute perpetual futures trades on Hyperliquid via non-custodial vaults. Choose **Auto mode** for fully autonomous execution, or **HITL mode** where the agent proposes trade plans with full evidence and you approve via Telegram with one tap.
+
+**Are my funds safe?**
+
+Each agent gets its own non-custodial vault — the platform **cannot access your funds**. All financial commands require explicit `--confirm`. Withdrawal goes directly to your specified address. Gas fees for USDC bridging are sponsored by ZoneIn.
+
+**Do agents learn from mistakes?**
+
+Yes. Agents run a daily improvement cycle: every closed trade is analyzed, recurring failure patterns are detected, and the agent's strategy is adapted — LLM prompt context is enriched with past outcomes, threshold-tuning recommendations are surfaced, and performance degradation triggers alerts. The longer an agent runs, the sharper it gets.
+
+**Can I backtest before deploying?**
+
+Yes. The backtest engine replays real historical signals and OHLC prices against your agent's configuration. You get an equity curve, trade markers, statistics (Sharpe, max drawdown, win rate, profit factor), and a full trade log — all before risking any capital.
+
+### **API & Integrations**
+
+**Is there an API?**
+
+Yes. The full REST API is documented at [mcp.zonein.xyz/docs](https://mcp.zonein.xyz/docs). Public endpoints (dashboard signals, TA, derivatives) require no auth. Authenticated endpoints (SM data, PM data, agents) use API keys with the `zn_` prefix.
+
+**Can I use ZoneIn with AI assistants?**
+
+Yes. The MCP stdio server exposes ZoneIn as structured tools for OpenClaw, Claude Desktop, and any MCP-compatible assistant. Ask questions in natural language — "What's the SM consensus on ETH?" — and get answers backed by the same data as the dashboard.
+
+### **Security & Privacy**
+
+**Will ZoneIn ever ask for my private keys?**
+
+**Never.** All data comes from public on-chain sources. Private keys are never requested. Agent vaults are non-custodial — the platform has no access to your funds.
+
+**How is data protected?**
+
+HTTPS end to end. API key authentication on protected endpoints. No personal data beyond your API key is stored. All wallet addresses analyzed are public blockchain data.

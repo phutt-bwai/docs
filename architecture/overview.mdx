@@ -65,7 +65,7 @@ graph LR
 
 ## From Data to Signal
 
-The platform treats the market as a continuous stream of events across **four asset types**: [perpetual futures](https://app.zonein.xyz/perp/), [spot token holdings](https://app.zonein.xyz/spot), [HIP‑3 builder‑deployed perps](https://app.zonein.xyz/hip3), and [prediction markets](https://app.zonein.xyz/pm). Data arrives in real time from Hyperliquid’s on-chain orderbook (positions, trades, funding, HIP‑3 DEXes) and Polymarket’s API (leaderboards, positions, trades). Technical analysis indicators span multiple timeframes. Derivatives data provides open interest, funding rates, long/short ratios, and liquidation flows.
+The platform treats the market as a continuous stream of events across **four asset types**: [perpetual futures](https://app.zonein.xyz/perp/), [spot token holdings](https://app.zonein.xyz/spot), [HIP‑3 builder‑deployed perps](https://app.zonein.xyz/hip3), and [prediction markets](https://app.zonein.xyz/pm). Data arrives in real time from Hyperliquid's on-chain orderbook (positions, trades, funding, HIP‑3 DEXes) and Polymarket's API (leaderboards, positions, trades). Technical analysis indicators span multiple timeframes. Derivatives data provides open interest, funding rates, long/short ratios, and liquidation flows.
 
 ```mermaid
 flowchart TB
@@ -96,19 +96,19 @@ The signal fusion engine combines **smart money telemetry** (wallet-count ratio,
 
 ### [AI Dashboard](https://app.zonein.xyz)
 
-Real-time command center. Assets ranked by composite conviction — click any asset for a full analysis page with OHLC charts, SM strength overlay, trade flow bubbles, funding rate, derivatives indicators, and liquidation heatmaps. See [AI Dashboard](/features/ai-powered-dashboard) for the full detail page breakdown.
+Real-time command center. Assets ranked by composite conviction — click any asset for a full analysis page with OHLC charts, SM strength overlay, trade flow bubbles, funding rate, derivatives indicators, and liquidation heatmaps. See [AI Dashboard](/capabilities/for-users/ai-powered-dashboard) for the full detail page breakdown.
 
 ### [Position Graphs](https://app.zonein.xyz/perp/)
 
-Four interactive bipartite graphs ([PM](https://app.zonein.xyz/pm), [Perp](https://app.zonein.xyz/perp/), [Spot](https://app.zonein.xyz/spot), [HIP-3](https://app.zonein.xyz/hip3)) render the live relationship between smart money wallets and their positions. Pre-computed server-side, rendered with D3.js. See [Position Graph](/features/position-graph).
+Four interactive bipartite graphs ([PM](https://app.zonein.xyz/pm), [Perp](https://app.zonein.xyz/perp/), [Spot](https://app.zonein.xyz/spot), [HIP-3](https://app.zonein.xyz/hip3)) render the live relationship between smart money wallets and their positions. Pre-computed server-side, rendered with D3.js. See [Position Graph](/capabilities/for-users/3d-network-graph).
 
 ### [MCP API](https://mcp.zonein.xyz/docs) & Telegram
 
-REST API + MCP stdio server for programmatic access. Telegram bot for trade notifications and HITL approval. See [MCP API & Integrations](/features/mcp-api).
+REST API + MCP stdio server for programmatic access. Telegram bot for trade notifications and HITL approval. See [MCP API & Integrations](/capabilities/for-users/ai-assistant).
 
 ### Trading Agents
 
-Autonomous agents that consume composite signals, apply custom strategy and trigger conditions, and execute on Hyperliquid via non-custodial vaults. Auto or HITL mode. See [Trading Agents](/features/trading-agents).
+Autonomous agents that consume composite signals, apply custom strategy and trigger conditions, and execute on Hyperliquid via non-custodial vaults. Auto or HITL mode. See [Trading Agents](/capabilities/for-users/deep-research).
 
 ## Data Flow
 
@@ -144,6 +144,6 @@ Data is ingested continuously from on-chain sources, processed into composite si
 
 ## ZoneIn's Endgame
 
-ZoneIn is building toward a future where signal, intent, and execution collapse into a single frictionless loop — verifiable agent reputation (ERC-8004), pay-per-request micropayments (x402), RL-based policies that learn from market feedback, expanded venue coverage, and a strategy marketplace with on-chain performance verification. For the full roadmap, see [Core Components — Future Endgame](/architecture/core-components#future-endgame) and [MCP API — Web3 Trust & Payments](/features/mcp-api#web3-trust--payments-roadmap).
+ZoneIn is building toward a future where signal, intent, and execution collapse into a single frictionless loop — verifiable agent reputation (ERC-8004), pay-per-request micropayments (x402), RL-based policies that learn from market feedback, expanded venue coverage, and a strategy marketplace with on-chain performance verification. For the full roadmap, see [Core Components — Future Endgame](/architecture/core-components#future-endgame) and [MCP API — Web3 Trust & Payments](/capabilities/for-users/ai-assistant#web3-trust--payments-roadmap).
 
 Typical scenarios illustrate how this works in practice: browsing the [AI Dashboard](https://app.zonein.xyz) to find assets where smart money, TA, and derivatives flow all converge; opening a [Position Graph](https://app.zonein.xyz/perp/) to see which high-conviction wallets share positions in a token you're researching; deploying a HITL trading agent that proposes trades with full evidence for you to approve from Telegram; or querying your AI assistant with "What are whales doing on BTC?" and getting a composite answer in seconds.
